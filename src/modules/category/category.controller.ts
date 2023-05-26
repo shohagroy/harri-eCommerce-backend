@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createNewCategoryToDB } from "./category.service";
+import { createNewCategoryToDB, getAllCategorysToDB } from "./category.service";
 
 export const postNewCategory = async (req: Request, res: Response) => {
   try {
@@ -11,13 +11,12 @@ export const postNewCategory = async (req: Request, res: Response) => {
 };
 
 export const getAllCategorys = async (req: Request, res: Response) => {
-  console.log("call");
+  try {
+    const categorys = await getAllCategorysToDB();
 
-  res.send("get all categories");
-  //   const category = await createNewCategoryToDB(req.body);
-  //   try {
-  //     res.status(201).json({ status: "success", data: category });
-  //   } catch (error) {
-  //     res.status(500).json({ status: "fail", error });
-  //   }
+    console.log(categorys);
+    res.status(200).json({ status: "success", data: categorys });
+  } catch (error) {
+    res.status(500).json({ status: "fail", error });
+  }
 };
