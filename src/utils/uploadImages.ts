@@ -1,20 +1,9 @@
-// const cloudinary = require("../configs/cloudinary");
-
 const cloudinary = require("cloudinary").v2;
-
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRETE,
-// });
-
-cloudinary.config({
-  cloud_name: "djx9awdb7",
-  api_key: "527518436833723",
-  api_secret: "ahoHDi8qaKK-rDn8Bzg4Pn8bg1g",
-});
+const { config } = require("../configs/cloudinary");
 
 export default async (files: any) => {
+  cloudinary.config(config);
+
   const uploadedFiles = [];
   try {
     const result = await cloudinary.uploader.upload(files);

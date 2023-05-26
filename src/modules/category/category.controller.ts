@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { errorHandelar } from "../../utils/globalErrorHandelar";
-import { createNewCategoryToDB, getAllCategorysToDB } from "./category.service";
+import {
+  createNewCategoryToDB,
+  deleteCaregoryByIdToDB,
+  getAllCategorysToDB,
+} from "./category.service";
 
 export const postNewCategory = async (req: Request, res: Response) => {
   try {
@@ -14,10 +18,19 @@ export const postNewCategory = async (req: Request, res: Response) => {
 export const getAllCategorys = async (req: Request, res: Response) => {
   try {
     const categorys = await getAllCategorysToDB();
-
-    console.log(categorys);
     res.status(200).json({ status: "success", data: categorys });
   } catch (error) {
-    res.status(500).json({ status: "fail", error });
+    errorHandelar(res, error);
+  }
+};
+
+export const deleteCategoryById = async (req: Request, res: Response) => {
+  try {
+    const response = await deleteCaregoryByIdToDB(req.params.id);
+    res
+      .status(200)
+      .json({ status: "success", message: "category delete successfully!" });
+  } catch (error) {
+    errorHandelar(res, error);
   }
 };
