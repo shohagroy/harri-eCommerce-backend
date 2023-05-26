@@ -2,7 +2,7 @@ import { Document, model, Model, Schema } from "mongoose";
 
 export interface ICategory extends Document {
   name: string;
-  icon: string;
+  icon: [];
   publish: boolean;
 }
 
@@ -15,7 +15,7 @@ const categorySchema: Schema<ICategory> = new Schema<ICategory>({
     trim: true,
   },
   icon: {
-    type: String,
+    type: [Object],
     required: true,
   },
   publish: {

@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { errorHandelar } from "../../utils/globalErrorHandelar";
 import { createNewCategoryToDB, getAllCategorysToDB } from "./category.service";
 
 export const postNewCategory = async (req: Request, res: Response) => {
@@ -6,7 +7,7 @@ export const postNewCategory = async (req: Request, res: Response) => {
     const category = await createNewCategoryToDB(req.body);
     res.status(201).json({ status: "success", data: category });
   } catch (error) {
-    res.status(500).json({ status: "fail", error });
+    errorHandelar(res, error);
   }
 };
 

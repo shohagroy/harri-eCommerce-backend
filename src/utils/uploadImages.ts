@@ -14,12 +14,16 @@ cloudinary.config({
   api_secret: "ahoHDi8qaKK-rDn8Bzg4Pn8bg1g",
 });
 
-export default async (files: string) => {
+export default async (files: any) => {
+  const uploadedFiles = [];
   try {
     const result = await cloudinary.uploader.upload(files);
-    return result.secure_url;
+    const image = { url: result.secure_url, id: result.public_id };
+    uploadedFiles.push(image);
+
+    return uploadedFiles;
   } catch (error) {
     console.error(error);
-    return "";
+    return uploadedFiles;
   }
 };
