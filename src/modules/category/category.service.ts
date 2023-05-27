@@ -10,9 +10,45 @@ export const createNewCategoryToDB = async (data: ICategory) => {
   return response;
 };
 
-export const getAllCategorysToDB = async () => {
-  const response = await Category.find();
-  return response;
+export const getAllCategorysToDB = async (query: any) => {
+  const { search, skip } = query;
+
+  const result = await Category.aggregate([
+    {
+      $facet: {
+        count: [
+          {
+            $group: {
+              _id: null,
+              count: { $sum: 1 },
+            },
+          },
+        ],
+        data: [
+          {
+            $match: { name: { $regex: search } },
+          },
+          {
+            $sort: { createdAt: -1 },
+          },
+          {
+            $skip: parseInt(skip),
+          },
+          {
+            $limit: 10,
+          },
+        ],
+      },
+    },
+    {
+      $project: {
+        count: { $arrayElemAt: ["$count.count", 0] },
+        data: 1,
+      },
+    },
+  ]);
+
+  return result[0];
 };
 
 export const deleteCaregoryByIdToDB = async (id: string) => {

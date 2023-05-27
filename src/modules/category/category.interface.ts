@@ -6,24 +6,29 @@ export interface ICategory extends Document {
   publish: boolean;
 }
 
-const categorySchema: Schema<ICategory> = new Schema<ICategory>({
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    trim: true,
+const categorySchema: Schema<ICategory> = new Schema<ICategory>(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    icon: {
+      type: [Object],
+      required: true,
+    },
+    publish: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
-  icon: {
-    type: [Object],
-    required: true,
-  },
-  publish: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Category: Model<ICategory> = model<ICategory>("Category", categorySchema);
 

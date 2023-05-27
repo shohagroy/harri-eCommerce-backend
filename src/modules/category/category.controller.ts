@@ -16,10 +16,18 @@ export const postNewCategory = async (req: Request, res: Response) => {
 };
 
 export const getAllCategorys = async (req: Request, res: Response) => {
+  const query = req.query;
+
   try {
-    const categorys = await getAllCategorysToDB();
-    res.status(200).json({ status: "success", data: categorys });
+    const categorys = await getAllCategorysToDB(query);
+
+    res.status(200).json({
+      status: "success",
+      data: categorys.data,
+      count: categorys.count,
+    });
   } catch (error) {
+    console.log(error);
     errorHandelar(res, error);
   }
 };
