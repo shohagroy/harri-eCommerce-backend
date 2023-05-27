@@ -73,3 +73,46 @@ export const deleteCaregoryByIdToDB = async (id: string) => {
     return response;
   }
 };
+
+export const updateCaregoryByIdToDB = async (data: ICategory) => {
+  const { name, icon, publish, _id } = data;
+
+  const updatedCategory = await Category.findByIdAndUpdate(
+    _id,
+    {
+      name: name,
+      icon: icon,
+      publish: publish,
+    },
+    { new: true } // Set `new` option to true to return the updated document
+  );
+
+  return updatedCategory;
+};
+
+// export const updateCaregoryByIdToDB = async (data: ICategory) => {
+//   const { name, icon, publish, _id } = data;
+//   const result = await Category.aggregate([
+//     {
+//       $match: {
+//         _id: new Types.ObjectId(_id),
+//       },
+//     },
+//     {
+//       $set: {
+//         name: name,
+//         icon: icon,
+//         publish: publish,
+//       },
+//     },
+//     {
+//       $project: {
+//         oldField1: 0,
+//         oldField2: 0,
+//         // ...
+//       },
+//     },
+//   ]);
+
+//   return result[0];
+// };

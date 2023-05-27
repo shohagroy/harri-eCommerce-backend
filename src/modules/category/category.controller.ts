@@ -4,6 +4,7 @@ import {
   createNewCategoryToDB,
   deleteCaregoryByIdToDB,
   getAllCategorysToDB,
+  updateCaregoryByIdToDB,
 } from "./category.service";
 
 export const postNewCategory = async (req: Request, res: Response) => {
@@ -40,6 +41,19 @@ export const deleteCategoryById = async (req: Request, res: Response) => {
       res
         .status(200)
         .json({ status: "success", message: "Category Delete Successfully!" });
+    }
+  } catch (error) {
+    errorHandelar(res, error);
+  }
+};
+
+export const updateCategoryById = async (req: Request, res: Response) => {
+  try {
+    const response = await updateCaregoryByIdToDB(req.body);
+    if (response?._id) {
+      res
+        .status(200)
+        .json({ status: "success", message: "Category updated Successfully!" });
     }
   } catch (error) {
     errorHandelar(res, error);
