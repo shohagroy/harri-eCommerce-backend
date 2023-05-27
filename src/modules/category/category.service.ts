@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import deleteImage from "../../utils/deleteImage";
 import uploadImages from "../../utils/uploadImages";
 import Category, { ICategory } from "./category.interface";
 
@@ -31,6 +32,8 @@ export const deleteCaregoryByIdToDB = async (id: string) => {
     },
   ]);
   if (result[0].icon[0].id) {
-    console.log(result[0].icon[0].id);
+    await deleteImage(result[0].icon);
+    const response = await Category.deleteOne({ _id: new Types.ObjectId(id) });
+    return response;
   }
 };

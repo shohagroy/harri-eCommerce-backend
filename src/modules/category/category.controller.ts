@@ -27,9 +27,12 @@ export const getAllCategorys = async (req: Request, res: Response) => {
 export const deleteCategoryById = async (req: Request, res: Response) => {
   try {
     const response = await deleteCaregoryByIdToDB(req.params.id);
-    res
-      .status(200)
-      .json({ status: "success", message: "category delete successfully!" });
+
+    if (response?.acknowledged) {
+      res
+        .status(200)
+        .json({ status: "success", message: "Category Delete Successfully!" });
+    }
   } catch (error) {
     errorHandelar(res, error);
   }
