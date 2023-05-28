@@ -37,6 +37,8 @@ export const deleteCategoryById = async (req: Request, res: Response) => {
   try {
     const response = await deleteCaregoryByIdToDB(req.params.id);
 
+    // console.log(response);
+
     if (response?.acknowledged) {
       res
         .status(200)
