@@ -1,14 +1,15 @@
-// import { Types } from "mongoose";
-// import deleteImage from "../../utils/deleteImage";
-// import uploadImages from "../../utils/uploadImages";
-// import Category, { ICategory } from "./category.interface";
+import { Types } from "mongoose";
+import deleteImage from "../../utils/deleteImage";
+import uploadImages from "../../utils/uploadImages";
+import Product, { IProduct } from "./product.interface";
 
-// export const createNewCategoryToDB = async (data: ICategory) => {
-//   const icon = await uploadImages(data.icon);
+export const createNewProductToDB = async (data: IProduct) => {
+  const images = await uploadImages(data.images);
 
-//   const response = await Category.create({ ...data, icon: icon });
-//   return response;
-// };
+  const response = await Product.create({ ...data, images: images });
+  console.log(response);
+  return response;
+};
 
 // export const getAllCategorysToDB = async (query: any) => {
 //   const { search, skip } = query;

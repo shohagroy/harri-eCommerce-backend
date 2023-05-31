@@ -1,20 +1,16 @@
-// import { Request, Response } from "express";
-// import { errorHandelar } from "../../utils/globalErrorHandelar";
-// import {
-//   createNewCategoryToDB,
-//   deleteCaregoryByIdToDB,
-//   getAllCategorysToDB,
-//   updateCaregoryByIdToDB,
-// } from "./category.service";
+import { Request, Response } from "express";
+import { errorHandelar } from "../../utils/globalErrorHandelar";
+import { createNewProductToDB } from "./product.service";
 
-// export const postNewCategory = async (req: Request, res: Response) => {
-//   try {
-//     const category = await createNewCategoryToDB(req.body);
-//     res.status(201).json({ status: "success", data: category });
-//   } catch (error) {
-//     errorHandelar(res, error);
-//   }
-// };
+export const postNewProduct = async (req: Request, res: Response) => {
+  try {
+    const product = await createNewProductToDB(req.body);
+    res.status(201).json({ status: "success", data: product });
+  } catch (error) {
+    console.log(error);
+    errorHandelar(res, error);
+  }
+};
 
 // export const getAllCategorys = async (req: Request, res: Response) => {
 //   const query = req.query;
