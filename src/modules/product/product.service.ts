@@ -7,50 +7,52 @@ export const createNewProductToDB = async (data: IProduct) => {
   const images = await uploadImages(data.images);
 
   const response = await Product.create({ ...data, images: images });
-  console.log(response);
   return response;
 };
 
-// export const getAllCategorysToDB = async (query: any) => {
-//   const { search, skip } = query;
+export const getAllProductsToDB = async (query: any) => {
+  const { search, skip } = query;
 
-//   const result = await Category.aggregate([
-//     {
-//       $facet: {
-//         count: [
-//           {
-//             $group: {
-//               _id: null,
-//               count: { $sum: 1 },
-//             },
-//           },
-//         ],
-//         data: [
-//           {
-//             $match: { name: { $regex: search } },
-//           },
-//           {
-//             $sort: { createdAt: -1 },
-//           },
-//           {
-//             $skip: parseInt(skip),
-//           },
-//           {
-//             $limit: 10,
-//           },
-//         ],
-//       },
-//     },
-//     {
-//       $project: {
-//         count: { $arrayElemAt: ["$count.count", 0] },
-//         data: 1,
-//       },
-//     },
-//   ]);
+  const response = await Product.find({});
+  return response;
 
-//   return result[0];
-// };
+  //   const result = await Category.aggregate([
+  //     {
+  //       $facet: {
+  //         count: [
+  //           {
+  //             $group: {
+  //               _id: null,
+  //               count: { $sum: 1 },
+  //             },
+  //           },
+  //         ],
+  //         data: [
+  //           {
+  //             $match: { name: { $regex: search } },
+  //           },
+  //           {
+  //             $sort: { createdAt: -1 },
+  //           },
+  //           {
+  //             $skip: parseInt(skip),
+  //           },
+  //           {
+  //             $limit: 10,
+  //           },
+  //         ],
+  //       },
+  //     },
+  //     {
+  //       $project: {
+  //         count: { $arrayElemAt: ["$count.count", 0] },
+  //         data: 1,
+  //       },
+  //     },
+  //   ]);
+
+  //   return result[0];
+};
 
 // export const deleteCaregoryByIdToDB = async (id: string) => {
 //   const result = await Category.aggregate([

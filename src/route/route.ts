@@ -5,7 +5,10 @@ import {
   postNewCategory,
   updateCategoryById,
 } from "../modules/category/category.controller";
-import { postNewProduct } from "../modules/product/product.controller";
+import {
+  getAllProducts,
+  postNewProduct,
+} from "../modules/product/product.controller";
 
 const router = express.Router();
 
@@ -17,6 +20,6 @@ router
   .put(updateCategoryById);
 
 // product routes
-router.route("/products").post(postNewProduct);
+router.route("/products").post(postNewProduct).get(getAllProducts);
 
 export default router;
