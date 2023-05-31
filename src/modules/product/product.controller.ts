@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { errorHandelar } from "../../utils/globalErrorHandelar";
-import { createNewProductToDB, getAllProductsToDB } from "./product.service";
+import {
+  createNewProductToDB,
+  getAllProductsToDB,
+  getProductToDB,
+} from "./product.service";
 
 export const postNewProduct = async (req: Request, res: Response) => {
   try {
@@ -21,6 +25,22 @@ export const getAllProducts = async (req: Request, res: Response) => {
       status: "success",
       data: products,
       //   count: products.count,
+    });
+  } catch (error) {
+    console.log(error);
+    errorHandelar(res, error);
+  }
+};
+
+export const getSingleProduct = async (req: Request, res: Response) => {
+  const query = req.params.id;
+
+  try {
+    const product = await getProductToDB(query);
+
+    res.status(200).json({
+      status: "success",
+      data: product,
     });
   } catch (error) {
     console.log(error);

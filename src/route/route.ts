@@ -7,6 +7,7 @@ import {
 } from "../modules/category/category.controller";
 import {
   getAllProducts,
+  getSingleProduct,
   postNewProduct,
 } from "../modules/product/product.controller";
 
@@ -21,5 +22,6 @@ router
 
 // product routes
 router.route("/products").post(postNewProduct).get(getAllProducts);
+router.route("/products/id").post(postNewProduct).get(getSingleProduct);
 
 export default router;

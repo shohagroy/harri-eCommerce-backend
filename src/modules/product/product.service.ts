@@ -54,6 +54,11 @@ export const getAllProductsToDB = async (query: any) => {
   //   return result[0];
 };
 
+export const getProductToDB = async (query: string) => {
+  const response = await Product.findById(query);
+  return response;
+};
+
 // export const deleteCaregoryByIdToDB = async (id: string) => {
 //   const result = await Category.aggregate([
 //     {
