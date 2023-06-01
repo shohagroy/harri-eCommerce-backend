@@ -75,6 +75,7 @@ export const updateProductById = async (req: Request, res: Response) => {
         .json({ status: "success", message: "Product updated Successfully!" });
     }
   } catch (error) {
+    console.log(error);
     errorHandelar(res, error);
   }
 };

@@ -5,7 +5,10 @@ const { config } = require("../configs/cloudinary");
 
 export default async (images: Image[]) => {
   cloudinary.config(config);
-  images.forEach((img) => {
-    cloudinary.uploader.destroy(img.id);
-  });
+
+  if (images.length) {
+    images.forEach((img) => {
+      cloudinary.uploader.destroy(img.id);
+    });
+  }
 };

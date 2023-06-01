@@ -85,8 +85,15 @@ export const getProductToDB = async (query: string) => {
 
 export const updateProductByIdToDB = async (data: IProduct) => {
   const { images, _id } = data;
-
-  if (!images[0].url) {
+  if (images[0].url) {
+    console.log(_id);
+    const updatedProduct = await Product.findByIdAndUpdate(
+      _id,
+      { ...data },
+      { new: true }
+    );
+    return updatedProduct;
+  } else {
     const result = await Product.aggregate([
       {
         $match: {
@@ -115,8 +122,7 @@ export const updateProductByIdToDB = async (data: IProduct) => {
       },
     ]);
 
-    await deleteImage(result);
-    //   }
+    await deleteImage(result[0]);
 
     const updatedImages = await uploadImages(data);
     const updatedProduct = await Product.findByIdAndUpdate(
