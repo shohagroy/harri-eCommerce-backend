@@ -6,6 +6,7 @@ import {
   updateCategoryById,
 } from "../modules/category/category.controller";
 import {
+  deleteProductById,
   getAllProducts,
   getSingleProduct,
   postNewProduct,
@@ -27,6 +28,7 @@ router
   .route("/products/:id")
   .post(postNewProduct)
   .get(getSingleProduct)
-  .put(updateProductById);
+  .put(updateProductById)
+  .delete(deleteProductById);
 
 export default router;

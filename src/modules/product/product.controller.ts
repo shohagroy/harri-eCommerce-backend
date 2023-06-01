@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { errorHandelar } from "../../utils/globalErrorHandelar";
 import {
   createNewProductToDB,
+  deleteProductByIdToDB,
   getAllProductsToDB,
   getProductToDB,
   updateProductByIdToDB,
@@ -49,21 +50,21 @@ export const getSingleProduct = async (req: Request, res: Response) => {
   }
 };
 
-// export const deleteCategoryById = async (req: Request, res: Response) => {
-//   try {
-//     const response = await deleteCaregoryByIdToDB(req.params.id);
+export const deleteProductById = async (req: Request, res: Response) => {
+  try {
+    const response = await deleteProductByIdToDB(req.params.id);
 
-//     // console.log(response);
+    console.log(response);
 
-//     if (response?.acknowledged) {
-//       res
-//         .status(200)
-//         .json({ status: "success", message: "Category Delete Successfully!" });
-//     }
-//   } catch (error) {
-//     errorHandelar(res, error);
-//   }
-// };
+    if (response?.acknowledged) {
+      res
+        .status(200)
+        .json({ status: "success", message: "Category Delete Successfully!" });
+    }
+  } catch (error) {
+    errorHandelar(res, error);
+  }
+};
 
 export const updateProductById = async (req: Request, res: Response) => {
   try {

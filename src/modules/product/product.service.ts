@@ -59,29 +59,39 @@ export const getProductToDB = async (query: string) => {
   return response;
 };
 
-// export const deleteCaregoryByIdToDB = async (id: string) => {
-//   const result = await Category.aggregate([
-//     {
-//       $match: {
-//         _id: new Types.ObjectId(id),
-//       },
-//     },
-//     {
-//       $project: {
-//         icon: 1,
-//       },
-//     },
-//     {
-//       $unset: ["name", "publish", "__v", "_id"],
-//     },
-//   ]);
+export const deleteProductByIdToDB = async (id: string) => {
+  const result = await Product.aggregate([
+    {
+      $match: {
+        _id: new Types.ObjectId(id),
+      },
+    },
+    {
+      $project: {
+        icon: 1,
+      },
+    },
+    {
+      $unset: [
+        "title",
+        "category",
+        "__v",
+        "_id",
+        "unit",
+        "quantity",
+        "price",
+        "discount",
+        "tags",
+        "description",
+        "publish",
+      ],
+    },
+  ]);
 
-//   if (result[0].icon[0].id) {
-//     await deleteImage(result[0].icon);
-//     const response = await Category.deleteOne({ _id: new Types.ObjectId(id) });
-//     return response;
-//   }
-// };
+  await deleteImage(result[0]);
+  const response = await Product.deleteOne({ _id: new Types.ObjectId(id) });
+  return response;
+};
 
 export const updateProductByIdToDB = async (data: IProduct) => {
   const { images, _id } = data;
