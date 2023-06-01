@@ -9,6 +9,7 @@ import {
   getAllProducts,
   getSingleProduct,
   postNewProduct,
+  updateProductById,
 } from "../modules/product/product.controller";
 
 const router = express.Router();
@@ -22,6 +23,10 @@ router
 
 // product routes
 router.route("/products").post(postNewProduct).get(getAllProducts);
-router.route("/products/id").post(postNewProduct).get(getSingleProduct);
+router
+  .route("/products/:id")
+  .post(postNewProduct)
+  .get(getSingleProduct)
+  .put(updateProductById);
 
 export default router;

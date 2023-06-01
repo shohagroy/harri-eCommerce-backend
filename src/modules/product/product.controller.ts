@@ -4,6 +4,7 @@ import {
   createNewProductToDB,
   getAllProductsToDB,
   getProductToDB,
+  updateProductByIdToDB,
 } from "./product.service";
 
 export const postNewProduct = async (req: Request, res: Response) => {
@@ -64,15 +65,16 @@ export const getSingleProduct = async (req: Request, res: Response) => {
 //   }
 // };
 
-// export const updateCategoryById = async (req: Request, res: Response) => {
-//   try {
-//     const response = await updateCaregoryByIdToDB(req.body);
-//     if (response?._id) {
-//       res
-//         .status(200)
-//         .json({ status: "success", message: "Category updated Successfully!" });
-//     }
-//   } catch (error) {
-//     errorHandelar(res, error);
-//   }
-// };
+export const updateProductById = async (req: Request, res: Response) => {
+  try {
+    const response = await updateProductByIdToDB(req.body);
+
+    if (response?._id) {
+      res
+        .status(200)
+        .json({ status: "success", message: "Product updated Successfully!" });
+    }
+  } catch (error) {
+    errorHandelar(res, error);
+  }
+};

@@ -1,9 +1,12 @@
+import { IProduct } from "../modules/product/product.interface";
+
 const cloudinary = require("cloudinary").v2;
 const { config } = require("../configs/cloudinary");
 
-export default async (files: string[]) => {
+export default async (data: IProduct) => {
   cloudinary.config(config);
 
+  const files = data.images;
   try {
     const uploadedFiles = await Promise.all(
       files.map(async (file) => {

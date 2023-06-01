@@ -1,8 +1,13 @@
 import { Document, model, Model, Schema } from "mongoose";
 
+export type Image = {
+  url: string;
+  id: string;
+};
+
 export interface IProduct extends Document {
   title: string;
-  images: string[];
+  images: Image[] | string[];
   category: { name: string; id: string };
   unit: string;
   quantity: number;

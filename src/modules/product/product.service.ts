@@ -4,7 +4,7 @@ import uploadImages from "../../utils/uploadImages";
 import Product, { IProduct } from "./product.interface";
 
 export const createNewProductToDB = async (data: IProduct) => {
-  const images = await uploadImages(data.images);
+  const images = await uploadImages(data);
 
   const response = await Product.create({ ...data, images: images });
   return response;
@@ -55,7 +55,7 @@ export const getAllProductsToDB = async (query: any) => {
 };
 
 export const getProductToDB = async (query: string) => {
-  const response = await Product.findById(query);
+  const response = await Product.findById({ _id: query });
   return response;
 };
 
@@ -83,54 +83,48 @@ export const getProductToDB = async (query: string) => {
 //   }
 // };
 
-// export const updateCaregoryByIdToDB = async (data: ICategory) => {
-//   const { name, icon, publish, _id } = data;
+export const updateProductByIdToDB = async (data: IProduct) => {
+  const { images, _id } = data;
 
-//   // setNewCategory(data);
-//   // console.log(data);
+  if (!images[0].url) {
+    const result = await Product.aggregate([
+      {
+        $match: {
+          _id: new Types.ObjectId(_id),
+        },
+      },
+      {
+        $project: {
+          images: 1,
+        },
+      },
+      {
+        $unset: [
+          "title",
+          "category",
+          "__v",
+          "_id",
+          "unit",
+          "quantity",
+          "price",
+          "discount",
+          "tags",
+          "description",
+          "publish",
+        ],
+      },
+    ]);
 
-//   if (icon.length > 1) {
-//     const result = await Category.aggregate([
-//       {
-//         $match: {
-//           _id: new Types.ObjectId(_id),
-//         },
-//       },
-//       {
-//         $project: {
-//           icon: 1,
-//         },
-//       },
-//       {
-//         $unset: ["name", "publish", "__v", "_id"],
-//       },
-//     ]);
+    await deleteImage(result);
+    //   }
 
-//     if (result[0].icon[0].id) {
-//       await deleteImage(result[0].icon);
-//     }
+    const updatedImages = await uploadImages(data);
+    const updatedProduct = await Product.findByIdAndUpdate(
+      _id,
+      { ...data, images: updatedImages },
+      { new: true }
+    );
 
-//     const updateIcon = await uploadImages(data.icon);
-//     const updatedCategory = await Category.findByIdAndUpdate(
-//       _id,
-//       {
-//         name: name,
-//         icon: updateIcon,
-//         publish: publish,
-//       },
-//       { new: true }
-//     );
-//     return updatedCategory;
-//   } else {
-//     const updatedCategory = await Category.findByIdAndUpdate(
-//       _id,
-//       {
-//         name: name,
-//         icon: icon,
-//         publish: publish,
-//       },
-//       { new: true }
-//     );
-//     return updatedCategory;
-//   }
-// };
+    return updatedProduct;
+  }
+};
