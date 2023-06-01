@@ -11,47 +11,61 @@ export const createNewProductToDB = async (data: IProduct) => {
 };
 
 export const getAllProductsToDB = async (query: any) => {
-  const { search, skip } = query;
+  const { search, skip, sort, searchByCategory } = query;
 
-  const response = await Product.find({});
-  return response;
+  const result = await Product.aggregate([
+    {
+      $facet: {
+        count: [
+          {
+            $group: {
+              _id: null,
+              count: { $sum: 1 },
+            },
+          },
+        ],
+        data: [
+          {
+            $match: {
+              $and: [
+                searchByCategory
+                  ? {
+                      "category.id": new Types.ObjectId(searchByCategory),
+                    }
+                  : { title: { $regex: search } },
+              ],
+            },
 
-  //   const result = await Category.aggregate([
-  //     {
-  //       $facet: {
-  //         count: [
-  //           {
-  //             $group: {
-  //               _id: null,
-  //               count: { $sum: 1 },
-  //             },
-  //           },
-  //         ],
-  //         data: [
-  //           {
-  //             $match: { name: { $regex: search } },
-  //           },
-  //           {
-  //             $sort: { createdAt: -1 },
-  //           },
-  //           {
-  //             $skip: parseInt(skip),
-  //           },
-  //           {
-  //             $limit: 10,
-  //           },
-  //         ],
-  //       },
-  //     },
-  //     {
-  //       $project: {
-  //         count: { $arrayElemAt: ["$count.count", 0] },
-  //         data: 1,
-  //       },
-  //     },
-  //   ]);
+            // $match: {
+            //   $and: [
+            //     { title: { $regex: search } },
+            //     searchByCategory && {
+            //       "category.id": new Types.ObjectId(searchByCategory),
+            //     },
+            //   ],
+            // },
+          },
+          {
+            $sort: { price: sort === "high" ? -1 : 1 },
+          },
+          {
+            $skip: parseInt(skip),
+          },
+          {
+            $limit: 10,
+          },
+        ],
+      },
+    },
+    {
+      $project: {
+        count: { $arrayElemAt: ["$count.count", 0] },
+        data: 1,
+      },
+    },
+  ]);
 
-  //   return result[0];
+  return result[0];
 };
 
 export const getProductToDB = async (query: string) => {

@@ -25,8 +25,8 @@ export const getAllProducts = async (req: Request, res: Response) => {
 
     res.status(200).json({
       status: "success",
-      data: products,
-      //   count: products.count,
+      data: products.data,
+      count: products.count,
     });
   } catch (error) {
     console.log(error);
@@ -53,8 +53,6 @@ export const getSingleProduct = async (req: Request, res: Response) => {
 export const deleteProductById = async (req: Request, res: Response) => {
   try {
     const response = await deleteProductByIdToDB(req.params.id);
-
-    console.log(response);
 
     if (response?.acknowledged) {
       res
