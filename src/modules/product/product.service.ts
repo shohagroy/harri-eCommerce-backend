@@ -98,10 +98,9 @@ export const deleteProductByIdToDB = async (id: string) => {
   return response;
 };
 
-export const updateProductByIdToDB = async (data: IProduct) => {
+export const updateProductByIdToDB = async (data: any) => {
   const { images, _id } = data;
   if (images[0].url) {
-    console.log(_id);
     const updatedProduct = await Product.findByIdAndUpdate(
       _id,
       { ...data },

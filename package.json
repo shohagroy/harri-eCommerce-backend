@@ -1,7 +1,7 @@
 {
   "name": "harri-eCommerce-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "license": "MIT",
   "dependencies": {
     "@types/express": "^4.17.17",
