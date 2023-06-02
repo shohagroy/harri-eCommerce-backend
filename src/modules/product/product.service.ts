@@ -4,7 +4,7 @@ import uploadImages from "../../utils/uploadImages";
 import Product, { IProduct } from "./product.interface";
 
 export const createNewProductToDB = async (data: IProduct) => {
-  const images = await uploadImages(data);
+  const images = await uploadImages(data.images);
 
   const response = await Product.create({ ...data, images: images });
   return response;
@@ -35,15 +35,6 @@ export const getAllProductsToDB = async (query: any) => {
                   : { title: { $regex: search } },
               ],
             },
-
-            // $match: {
-            //   $and: [
-            //     { title: { $regex: search } },
-            //     searchByCategory && {
-            //       "category.id": new Types.ObjectId(searchByCategory),
-            //     },
-            //   ],
-            // },
           },
           {
             $sort: { price: sort === "high" ? -1 : 1 },
