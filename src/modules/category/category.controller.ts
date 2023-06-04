@@ -10,6 +10,7 @@ import {
 export const postNewCategory = async (req: Request, res: Response) => {
   try {
     const category = await createNewCategoryToDB(req.body);
+
     res.status(201).json({ status: "success", data: category });
   } catch (error) {
     errorHandelar(res, error);
