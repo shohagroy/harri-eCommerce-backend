@@ -7,8 +7,10 @@ export type InitialUser = {
 };
 
 export interface IUser extends Document {
+  uid: string;
   firstName: string;
   lastName: string;
+  displayName: string;
   avatar: string;
   email: string;
   phone: string;
@@ -19,15 +21,23 @@ export interface IUser extends Document {
 
 const userSchema: Schema<IUser> = new Schema<IUser>(
   {
-    firstName: {
+    uid: {
       type: String,
       required: true,
+      unique: true,
+    },
+    firstName: {
+      type: String,
       lowercase: true,
       trim: true,
     },
     lastName: {
       type: String,
-      required: true,
+      lowercase: true,
+      trim: true,
+    },
+    displayName: {
+      type: String,
       lowercase: true,
       trim: true,
     },
@@ -56,7 +66,6 @@ const userSchema: Schema<IUser> = new Schema<IUser>(
     },
     verified: {
       type: Boolean,
-      required: true,
     },
   },
   {

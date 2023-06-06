@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { errorHandelar } from "../../utils/globalErrorHandelar";
-import { InitialUser } from "./user.interface";
+import User, { InitialUser } from "./user.interface";
 import { createNewUserToDb } from "./user.service";
 
 export const createNewUser = async (req: Request, res: Response) => {
@@ -14,11 +14,7 @@ export const createNewUser = async (req: Request, res: Response) => {
   }
   try {
     const user = await createNewUserToDb(req.body);
-    res.status(201).json({
-      status: "success",
-      message: "user create sussessfully",
-      data: user,
-    });
+    res.status(200).json(user);
   } catch (error) {
     errorHandelar(res, error);
   }
