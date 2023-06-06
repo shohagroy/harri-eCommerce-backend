@@ -12,6 +12,7 @@ import {
   postNewProduct,
   updateProductById,
 } from "../modules/product/product.controller";
+import { createNewUser } from "../modules/user/user.controller";
 
 const router = express.Router();
 
@@ -30,5 +31,8 @@ router
   .get(getSingleProduct)
   .put(updateProductById)
   .delete(deleteProductById);
+
+// user route
+router.route("/create-user").post(createNewUser);
 
 export default router;
