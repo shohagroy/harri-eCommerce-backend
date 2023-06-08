@@ -32,3 +32,29 @@ export const createUserToFirebase = async (userInfo: InitialUser) => {
     return error;
   }
 };
+
+export const loginUserToFirebase = async (email: string, password: string) => {
+  try {
+    const userCredential = await admin.auth().getUserByEmail(email);
+    const userRecord = userCredential.toJSON();
+
+    console.log(userRecord);
+
+    // if (userRecord && userRecord.password === password) {
+    //   console.log("User logged in successfully:", userRecord.email);
+    //   return userRecord;
+    // } else {
+    //   console.error("Invalid email or password");
+    //   throw new Error("Invalid email or password");
+    // }
+  } catch (error) {
+    console.error("Error logging in user:", error);
+    throw error;
+  }
+};
+
+export const loginWithGoogle = async () => {
+  console.log("google call");
+};
+
+export default admin;

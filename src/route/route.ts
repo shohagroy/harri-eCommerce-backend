@@ -12,7 +12,9 @@ import {
   postNewProduct,
   updateProductById,
 } from "../modules/product/product.controller";
-import { createNewUser } from "../modules/user/user.controller";
+// import { createNewUser, loginUser } from "../modules/user/user.controller";
+
+// import passport from "../utils/passport";
 
 const router = express.Router();
 
@@ -33,6 +35,10 @@ router
   .delete(deleteProductById);
 
 // user route
-router.route("/create-user").post(createNewUser);
+// router.route("/login-google").post(googleLogin);
+
+// router
+//   .route("/login-google")
+//   .post(passport.authenticate("google", { scope: ["profile", "email"] }));
 
 export default router;

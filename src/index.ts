@@ -1,22 +1,27 @@
 import app from "./app";
-require("dotenv").config();
 const mongoose = require("mongoose");
+import env from "./configs/env.config";
+import { errorLogger, logger } from "./shared/loggar";
 
-const port: string | number = process.env.PORT || 5000;
-const uri: string | undefined = process.env.DB_URI;
+import { Server } from "http";
+
+const uri: string | undefined =
+  process.env.NODE_ENV !== "production"
+    ? "mongodb://127.0.0.1:27017/harri_shop"
+    : env.DB_URI;
 
 async function dbConnection() {
   try {
-    if (uri) {
+    if (env.DB_URI) {
       await mongoose.connect(uri);
-      app.listen(port, () => {
-        console.log(`server is listening on port: ${port}`);
+      app.listen(env.PORT, () => {
+        logger.info(`server is listening on port: ${env.PORT as string}`);
       });
     } else {
-      console.log("db uri is not defined");
+      errorLogger.error("db uri is not defined");
     }
   } catch (err) {
-    console.log(`Failed to connect database ${err}`);
+    errorLogger.error(`Failed to connect database ${err}`);
   }
 }
 

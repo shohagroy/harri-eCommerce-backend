@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\projects\\harri-eCommerce-backend\\logs\\success\\.bf801d8855765540bf5379b8b8ab99990b58d565-audit.json",
+    "files": [
+        {
+            "date": 1686225356579,
+            "name": "C:\\projects\\harri-eCommerce-backend\\logs\\success\\dynamic-2023-06-08-17-success.log",
+            "hash": "de6c514a442767772033d1586c3cfb218aad73b8a4317d40e407e45ce36e5546"
+        },
+        {
+            "date": 1686225624117,
+            "name": "C:\\projects\\harri-eCommerce-backend\\logs\\success\\dynamic-2023-06-08-18-success.log",
+            "hash": "9c1222e6f2427ee20f64f43865da0fa2eec8ea90eb7d4302fce68b334c7205b6"
+        }
+    ],
+    "hashType": "sha256"
+}
