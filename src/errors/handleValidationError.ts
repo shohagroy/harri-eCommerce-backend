@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { IGenericErrorResponse } from "../inferfaces/common";
-// import { IGenericErrorResponse } from "../inferfaces/common";
 import { IGenericErrorMessage } from "../inferfaces/error";
 
 const handleValidationError = (

@@ -1,11 +1,14 @@
 import bodyParser from "body-parser";
 import { Request, Response } from "express";
+import globalErrorHandler from "./middlewares/globalErrorHandelar";
 import router from "./route/route";
 
 const express = require("express");
 const cors = require("cors");
 
 const app = express();
+
+app.use(globalErrorHandler);
 
 app.use(
   cors({

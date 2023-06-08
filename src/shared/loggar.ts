@@ -2,7 +2,6 @@ import { createLogger, format, transports } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 
 import path from "path";
-import env from "../configs/env.config";
 
 const { combine, timestamp, label, printf } = format;
 
@@ -28,7 +27,7 @@ export const logger = createLogger({
       ),
       datePattern: "YYYY-MM-DD-HH",
       zippedArchive: true,
-      maxSize: "20m",
+      maxSize: "10m",
       maxFiles: "14d",
     }),
   ],

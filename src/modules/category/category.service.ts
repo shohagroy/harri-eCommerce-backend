@@ -78,9 +78,6 @@ export const deleteCaregoryByIdToDB = async (id: string) => {
 export const updateCaregoryByIdToDB = async (data: ICategory) => {
   const { name, icon, publish, _id } = data;
 
-  // setNewCategory(data);
-  // console.log(data);
-
   if (icon.length > 1) {
     const result = await Category.aggregate([
       {
@@ -123,6 +120,7 @@ export const updateCaregoryByIdToDB = async (data: ICategory) => {
       },
       { new: true }
     );
+
     return updatedCategory;
   }
 };
