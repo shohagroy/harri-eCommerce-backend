@@ -36,8 +36,4 @@ router
 // user route
 router.route("/create-user").post(createNewUser);
 
-// router
-//   .route("/login-google")
-//   .post(passport.authenticate("google", { scope: ["profile", "email"] }));
-
 export default router;

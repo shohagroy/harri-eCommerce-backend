@@ -55,7 +55,6 @@ const globalErrorHandler: ErrorRequestHandler = (
     errorMessages,
     stack: env.DEVELOPMENT === "development" ? error?.stack : undefined,
   });
-
   next();
 };
 

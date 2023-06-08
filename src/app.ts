@@ -8,11 +8,9 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(globalErrorHandler);
-
 app.use(
   cors({
-    // origin: ["http://localhost:30000"],
+    // origin: ["http://localhost:3000"],
     // origin: "*",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
@@ -29,5 +27,6 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api/v1", router);
+app.use(globalErrorHandler);
 
 export default app;
