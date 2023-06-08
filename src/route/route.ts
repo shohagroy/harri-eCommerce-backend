@@ -5,6 +5,7 @@ import {
   postNewCategory,
   updateCategoryById,
 } from "../modules/category/category.controller";
+
 import {
   deleteProductById,
   getAllProducts,
@@ -12,9 +13,7 @@ import {
   postNewProduct,
   updateProductById,
 } from "../modules/product/product.controller";
-// import { createNewUser, loginUser } from "../modules/user/user.controller";
-
-// import passport from "../utils/passport";
+import { createNewUser } from "../modules/user/user.controller";
 
 const router = express.Router();
 
@@ -35,7 +34,7 @@ router
   .delete(deleteProductById);
 
 // user route
-// router.route("/login-google").post(googleLogin);
+router.route("/create-user").post(createNewUser);
 
 // router
 //   .route("/login-google")

@@ -1,4 +1,10 @@
-import { Document, model, Model, Schema } from "mongoose";
+import {
+  Document,
+  isObjectIdOrHexString,
+  model,
+  Model,
+  Schema,
+} from "mongoose";
 
 export type InitialUser = {
   email: string;
@@ -7,12 +13,13 @@ export type InitialUser = {
 };
 
 export interface IUser extends Document {
+  _id: string;
   uid: string;
   firstName: string;
   lastName: string;
-  displayName: string;
   avatar: string;
   email: string;
+  password: string;
   phone: string;
   address: string;
   role: string;
@@ -21,6 +28,7 @@ export interface IUser extends Document {
 
 const userSchema: Schema<IUser> = new Schema<IUser>(
   {
+    _id: isObjectIdOrHexString,
     uid: {
       type: String,
       required: true,
@@ -36,11 +44,6 @@ const userSchema: Schema<IUser> = new Schema<IUser>(
       lowercase: true,
       trim: true,
     },
-    displayName: {
-      type: String,
-      lowercase: true,
-      trim: true,
-    },
     avatar: {
       type: String,
       trim: true,
@@ -51,6 +54,9 @@ const userSchema: Schema<IUser> = new Schema<IUser>(
       lowercase: true,
       unique: true,
       trim: true,
+    },
+    password: {
+      type: String,
     },
     phone: {
       type: String,
