@@ -64,6 +64,26 @@
             "date": 1686312617508,
             "name": "C:\\projects\\harri-eCommerce-backend\\logs\\errors\\dynamic-2023-06-09-18-error.log",
             "hash": "e0b337a2e5e7d69e4eb2ef093ce8b8dd9f1593374fac2b3bff0c712f3034512d"
+        },
+        {
+            "date": 1686315648551,
+            "name": "C:\\projects\\harri-eCommerce-backend\\logs\\errors\\dynamic-2023-06-09-19-error.log",
+            "hash": "1e6d3aa416deabd9c56da3d1791bf8f67b5fc92772d39a5ac70d4878f14dcd13"
+        },
+        {
+            "date": 1686319423586,
+            "name": "C:\\projects\\harri-eCommerce-backend\\logs\\errors\\dynamic-2023-06-09-20-error.log",
+            "hash": "3d908f56fa6438d8ce5b3e3314dc211c5e1a2e5e3227b592358f5cef24370c6b"
+        },
+        {
+            "date": 1686322802639,
+            "name": "C:\\projects\\harri-eCommerce-backend\\logs\\errors\\dynamic-2023-06-09-21-error.log",
+            "hash": "084a2073cc31181aa6ee607f410ad2ceab38aa70a0f52f28b9109fc3aa772cf0"
+        },
+        {
+            "date": 1686326400671,
+            "name": "C:\\projects\\harri-eCommerce-backend\\logs\\errors\\dynamic-2023-06-09-22-error.log",
+            "hash": "ee4c61abaaea9a7d2fefd982528e94b8e43d328ac14d1c5bd42af9d12de85427"
         }
     ],
     "hashType": "sha256"

@@ -2,34 +2,64 @@ import { compareSync } from "bcrypt";
 import { PassportStatic } from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy, Profile } from "passport-google-oauth20";
-import User, { IUser } from "../modules/user/user.interface";
+import User from "../modules/user/user.interface";
+import ApiError from "../errors/ApiError";
+import { getSupportedCodeFixes } from "typescript";
 
 const passportConfig = (passport: PassportStatic) => {
   passport.use(
-    new LocalStrategy(async function (
-      email: string,
-      password: string,
-      done: Function
-    ) {
-      try {
-        const user = await User.findOne({ email });
+    new LocalStrategy(
+      { usernameField: "email" },
+      async (email, password, done) => {
+        try {
+          const user = await User.findOne({ email });
 
-        if (!user) {
-          return done(null, false, { message: "Incorrect email." });
+          if (!user) {
+            // throw new ApiError(400, "User not found!");
+            return done(null, false, { message: "Incorrect username." });
+          }
+
+          if (!compareSync(password, user.password)) {
+            console.log("Incorrect password");
+            // throw new ApiError(400, "User or Password Incorrect!");
+            return done(null, false, { message: "Incorrect password." });
+          }
+
+          return done(null, user);
+        } catch (error) {
+          return done(error);
         }
-
-        if (!compareSync(password, user.password)) {
-          console.log("Incorrect password");
-          return done(null, false, { message: "Incorrect password." });
-        }
-
-        return done(null, user);
-      } catch (error) {
-        console.log(error);
-        return done(error);
       }
-    })
+    )
   );
+
+  // passport.use(
+  //   new LocalStrategy(async function (
+  //     email: string,
+  //     password: string,
+  //     done: Function
+  //   ) {
+  // try {
+  //   const user = await User.findOne({ email });
+
+  //   console.log(user);
+
+  //   if (!user) {
+  //     return done(null, false, { message: "Incorrect email." });
+  //   }
+
+  //   if (!compareSync(password, user.password)) {
+  //     console.log("Incorrect password");
+  //     return done(null, false, { message: "Incorrect password." });
+  //   }
+
+  //   return done(null, user);
+  // } catch (error) {
+  //   console.log(error);
+  //   return done(error);
+  // }
+  //   })
+  // );
 
   //   passport.use(
   //     new GoogleStrategy(

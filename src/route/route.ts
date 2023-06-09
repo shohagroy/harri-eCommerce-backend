@@ -1,4 +1,5 @@
 import express from "express";
+import passport from "passport";
 import {
   deleteCategoryById,
   getAllCategorys,
@@ -13,7 +14,7 @@ import {
   postNewProduct,
   updateProductById,
 } from "../modules/product/product.controller";
-import { createNewUser } from "../modules/user/user.controller";
+import { createNewUser, userLogin } from "../modules/user/user.controller";
 
 const router = express.Router();
 
@@ -35,5 +36,11 @@ router
 
 // user route
 router.route("/create-user").post(createNewUser);
+
+// user login function
+// passportConfig(passport);
+router.route("/login-user").post(userLogin);
+
+router.route("/get-login-user").get();
 
 export default router;
