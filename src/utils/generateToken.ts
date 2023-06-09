@@ -3,9 +3,9 @@ import { IUser } from "../modules/user/user.interface";
 const jwt = require("jsonwebtoken");
 
 const generateToken = (userInfo: IUser) => {
-  const { uid, role, email, _id } = userInfo;
+  const { firstName, role, email, _id } = userInfo;
   const payload = {
-    uid,
+    firstName,
     role,
     email,
     _id,
