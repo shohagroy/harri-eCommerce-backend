@@ -9,22 +9,27 @@ export const createNewUserToDb = async (userInfo: InitialUser) => {
   if (password !== confirmPassword) {
     throw new ApiError(400, "Password did not Match!");
   }
+  const alreadyRegistered = await User.findOne({ email: email });
 
-  const newUser = {
-    googleId: "",
-    firstName: "",
-    lastName: "",
-    avatar: "",
-    email: email,
-    password: bcrypt.hashSync(password, 10),
-    phone: "",
-    address: "",
-    role: "user",
-    verified: false,
-  };
+  if (!alreadyRegistered) {
+    const newUser = {
+      googleId: "",
+      firstName: "",
+      lastName: "",
+      avatar: "",
+      email: email,
+      password: bcrypt.hashSync(password, 10),
+      phone: "",
+      address: "",
+      role: "user",
+      verified: false,
+    };
 
-  const createUser = await User.create(newUser);
-  const token = await generateToken(createUser);
+    const createUser = await User.create(newUser);
+    const token = await generateToken(createUser);
 
-  return token;
+    return token;
+  } else {
+    throw new ApiError(400, "Email is Already Registered!");
+  }
 };

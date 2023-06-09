@@ -7,7 +7,6 @@ export type InitialUser = {
 };
 
 export interface IUser extends Document {
-  googleId: string;
   firstName: string;
   lastName: string;
   avatar: string;
@@ -21,7 +20,6 @@ export interface IUser extends Document {
 
 const userSchema: Schema<IUser> = new Schema<IUser>(
   {
-    googleId: String,
     firstName: {
       type: String,
       lowercase: true,
