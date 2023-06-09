@@ -3,8 +3,6 @@ import { PassportStatic } from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy, Profile } from "passport-google-oauth20";
 import User from "../modules/user/user.interface";
-import ApiError from "../errors/ApiError";
-import { getSupportedCodeFixes } from "typescript";
 
 const passportConfig = (passport: PassportStatic) => {
   passport.use(

@@ -20,12 +20,10 @@ const verifiedTokenUser: RequestHandler = async (req, res, next) => {
     );
 
     req.user = decoded;
+
     next();
   } catch (error) {
-    return res.status(401).json({
-      status: "fail",
-      message: "Invalid Token",
-    });
+    next(error);
   }
 };
 
