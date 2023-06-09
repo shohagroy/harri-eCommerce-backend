@@ -1,5 +1,6 @@
 import express from "express";
 import passport from "passport";
+import verifiedTokenUser from "../middlewares/verifyTokenUser";
 import {
   deleteCategoryById,
   getAllCategorys,
@@ -14,7 +15,11 @@ import {
   postNewProduct,
   updateProductById,
 } from "../modules/product/product.controller";
-import { createNewUser, userLogin } from "../modules/user/user.controller";
+import {
+  createNewUser,
+  findLoginUser,
+  userLogin,
+} from "../modules/user/user.controller";
 
 const router = express.Router();
 
@@ -40,7 +45,6 @@ router.route("/create-user").post(createNewUser);
 // user login function
 // passportConfig(passport);
 router.route("/login-user").post(userLogin);
-
-router.route("/get-login-user").get();
+router.route("/get-login-user").get(verifiedTokenUser, findLoginUser);
 
 export default router;

@@ -33,3 +33,9 @@ export const createNewUserToDb = async (userInfo: InitialUser) => {
     throw new ApiError(400, "Email is Already Registered!");
   }
 };
+
+export const fintLoginUserToDb = async (id: any) => {
+  const response = await User.findById(id).select("-password");
+
+  return response;
+};

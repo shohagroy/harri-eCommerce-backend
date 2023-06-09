@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import passport from "passport";
 import { IUser } from "./user.interface";
-import { createNewUserToDb } from "./user.service";
+import { createNewUserToDb, fintLoginUserToDb } from "./user.service";
 import generateToken from "../../utils/generateToken";
 
 export const createNewUser: RequestHandler = async (req, res, next) => {
@@ -52,4 +52,18 @@ export const userLogin: RequestHandler = (req, res, next) => {
       });
     }
   )(req, res, next);
+};
+
+export const findLoginUser: RequestHandler = async (req, res, next) => {
+  const user: any = req.user;
+  try {
+    const loginUser = await fintLoginUserToDb(user?._id);
+    res.status(200).json({
+      status: "success",
+      message: "user get successfully!",
+      data: loginUser,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
