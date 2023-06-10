@@ -11,4 +11,7 @@ export default {
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRETE: process.env.CLOUDINARY_API_SECRETE,
   SECTECT_TOKEN_KEY: process.env.SECTECT_TOKEN_KEY,
+  GOOGGLE_CLIENT_ID: process.env.GOOGGLE_clientID,
+  GOOGGLE_CLIENT_SECRET: process.env.GOOGGLE_clientSecret,
+  GOOGGLE_CALL_BACK_URL: process.env.GOOGGLE_callbackURL,
 };

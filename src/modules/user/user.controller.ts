@@ -3,6 +3,7 @@ import passport from "passport";
 import { IUser } from "./user.interface";
 import { createNewUserToDb, fintLoginUserToDb } from "./user.service";
 import generateToken from "../../utils/generateToken";
+import googleConfig from "../../configs/google.config";
 
 export const createNewUser: RequestHandler = async (req, res, next) => {
   try {
@@ -66,4 +67,15 @@ export const findLoginUser: RequestHandler = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const userLoginWithGoogle: RequestHandler = async (req, res, next) => {
+  const { clientID, callbackURL } = googleConfig;
+  const authenticationURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientID}&redirect_uri=${callbackURL}&response_type=code&scope=email%20profile`;
+
+  res.status(200).json({
+    status: "success",
+    message: "google auth url",
+    data: authenticationURL,
+  });
 };

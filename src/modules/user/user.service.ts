@@ -13,7 +13,6 @@ export const createNewUserToDb = async (userInfo: InitialUser) => {
 
   if (!alreadyRegistered) {
     const newUser = {
-      googleId: "",
       firstName: "",
       lastName: "",
       avatar: "",

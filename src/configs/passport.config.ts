@@ -1,8 +1,9 @@
-import { compareSync } from "bcrypt";
+import { compareSync, hashSync } from "bcrypt";
 import { PassportStatic } from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy, Profile } from "passport-google-oauth20";
 import User from "../modules/user/user.interface";
+import envConfig from "./env.config";
 
 const passportConfig = (passport: PassportStatic) => {
   passport.use(
@@ -13,13 +14,11 @@ const passportConfig = (passport: PassportStatic) => {
           const user = await User.findOne({ email });
 
           if (!user) {
-            // throw new ApiError(400, "User not found!");
             return done(null, false, { message: "Incorrect username." });
           }
 
           if (!compareSync(password, user.password)) {
             console.log("Incorrect password");
-            // throw new ApiError(400, "User or Password Incorrect!");
             return done(null, false, { message: "Incorrect password." });
           }
 
@@ -31,70 +30,65 @@ const passportConfig = (passport: PassportStatic) => {
     )
   );
 
-  // passport.use(
-  //   new LocalStrategy(async function (
-  //     email: string,
-  //     password: string,
-  //     done: Function
-  //   ) {
-  // try {
-  //   const user = await User.findOne({ email });
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: envConfig.GOOGGLE_CLIENT_ID!,
+        clientSecret: envConfig.GOOGGLE_CLIENT_SECRET!,
+        callbackURL: envConfig.GOOGGLE_CALL_BACK_URL,
+      },
+      async function (
+        accessToken: string,
+        refreshToken: string,
+        profile: Profile,
+        cb: Function
+      ) {
+        const { sub, given_name, family_name, picture, email, email_verified } =
+          profile?._json;
 
-  //   console.log(user);
+        const gogleUser = {
+          firstName: given_name,
+          lastName: family_name,
+          avatar: picture,
+          email: email,
+          password: hashSync(sub, 10),
+          phone: "",
+          address: "",
+          role: "user",
+          verified: email_verified,
+        };
 
-  //   if (!user) {
-  //     return done(null, false, { message: "Incorrect email." });
-  //   }
+        try {
+          const user = await User.findOne({ email: email });
 
-  //   if (!compareSync(password, user.password)) {
-  //     console.log("Incorrect password");
-  //     return done(null, false, { message: "Incorrect password." });
-  //   }
+          if (!user) {
+            const newUser = await User.create(gogleUser);
+            return cb(null, newUser);
+          }
 
-  //   return done(null, user);
-  // } catch (error) {
-  //   console.log(error);
-  //   return done(error);
-  // }
-  //   })
-  // );
+          const updatedUser = {
+            firstName: given_name,
+            lastName: family_name,
+            avatar: picture,
+            email: email,
+            phone: "",
+            address: "",
+            verified: email_verified,
+          };
 
-  //   passport.use(
-  //     new GoogleStrategy(
-  //       {
-  //         clientID:
-  //           "937758058789-rdq4pnb3er38o39ae6uuag7u3emtqpuf.apps.googleusercontent.com",
-  //         clientSecret: "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",
-  //         callbackURL: "http://localhost:5000/auth/callback",
-  //       },
-  //       async function (
-  //         accessToken: string,
-  //         refreshToken: string,
-  //         profile: Profile,
-  //         cb: Function
-  //       ) {
-  //         console.log(accessToken, refreshToken, profile);
+          const newUpdatedUser = await User.findOneAndUpdate(
+            { email },
+            updatedUser,
+            { new: true }
+          );
 
-  //         try {
-  //           const user = await User.findOne({ uid: profile.id });
-
-  //           if (!user) {
-  //             const newUser = await User.create({
-  //               email: profile.displayName,
-  //               password: "",
-  //               uid: profile.id,
-  //             });
-
-  //             return cb(null, newUser);
-  //           }
-
-  //           return cb(null, user);
-  //         } catch (error) {
-  //           return cb(error, null);
-  //         }
-  //       }
-  //     )
-  //   );
+          return cb(null, newUpdatedUser);
+        } catch (error) {
+          return cb(error, null);
+        }
+      }
+    )
+  );
 
   passport.serializeUser(function (
     user: any,
@@ -107,7 +101,7 @@ const passportConfig = (passport: PassportStatic) => {
     _id: any,
     done: (err: any, user?: any) => void
   ) {
-    User.findOne({ _id }) // Assuming "_id" is the identifier for the User model
+    User.findOne({ _id })
       .then((user) => {
         done(null, user);
       })

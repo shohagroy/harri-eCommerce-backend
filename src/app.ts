@@ -1,11 +1,13 @@
 import bodyParser from "body-parser";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import globalErrorHandler from "./middlewares/globalErrorHandelar";
 import cookieParser from "cookie-parser";
 import router from "./route/route";
 import passport from "passport";
 import passportConfig from "./configs/passport.config";
 import session from "express-session";
+import { IUser } from "./modules/user/user.interface";
+import generateToken from "./utils/generateToken";
 
 const express = require("express");
 const cors = require("cors");
@@ -43,4 +45,12 @@ app.use(globalErrorHandler);
 app.use(passport.initialize());
 passportConfig(passport);
 
+app.get(
+  "/auth/callback",
+  async (req: Request, res: Response, next: NextFunction) => {
+    passport.authenticate("google", (error: Error, user: IUser) => {
+      res.status(301).redirect("http://localhost:3000/");
+    })(req, res, next);
+  }
+);
 export default app;
