@@ -92,7 +92,7 @@ const passportConfig = (passport: PassportStatic) => {
 
   passport.serializeUser(function (
     user: any,
-    done: (err: any, id?: any) => void
+    done: (err: any, _id?: any) => void
   ) {
     done(null, user._id);
   });
@@ -101,6 +101,7 @@ const passportConfig = (passport: PassportStatic) => {
     _id: any,
     done: (err: any, user?: any) => void
   ) {
+    console.log(_id);
     User.findOne({ _id })
       .then((user) => {
         done(null, user);

@@ -29,9 +29,14 @@ app.use(bodyParser.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: false }));
 app.use(
   session({
-    secret: "your-secret-key",
+    secret: "your-secret-key", // Replace with your own secret key
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: false, // Set it to true if using HTTPS
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // Session expiration time (in milliseconds)
+    },
   })
 );
 
@@ -43,14 +48,24 @@ app.use("/api/v1", router);
 app.use(globalErrorHandler);
 
 app.use(passport.initialize());
+app.use(passport.session());
 passportConfig(passport);
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile"] })
+);
 
 app.get(
   "/auth/callback",
   async (req: Request, res: Response, next: NextFunction) => {
-    passport.authenticate("google", (error: Error, user: IUser) => {
-      res.status(301).redirect("http://localhost:3000/");
+    passport.authenticate("google", async (error: Error, user: IUser) => {
+      const token = await generateToken(user);
+
+      res.setHeader("Set-Cookie", `harriShop=${token}; Path=/;`);
+      res.redirect("http://localhost:3000");
     })(req, res, next);
   }
 );
+
 export default app;

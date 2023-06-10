@@ -1,6 +1,4 @@
 import express from "express";
-import passport from "passport";
-import googleConfig from "../configs/google.config";
 import verifiedLoginUser from "../middlewares/verifyTokenUser";
 import {
   deleteCategoryById,
@@ -43,12 +41,8 @@ router
 
 // user route
 router.route("/create-user").post(createNewUser);
-
-// user login function
-// passportConfig(passport);
 router.route("/login-user").post(userLogin);
-router.route("/get-login-user").get(verifiedLoginUser, findLoginUser);
-
 router.route("/login/auth/google").get(userLoginWithGoogle);
+router.route("/get-login-user").get(verifiedLoginUser, findLoginUser);
 
 export default router;
