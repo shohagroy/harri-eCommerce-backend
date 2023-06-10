@@ -129,6 +129,11 @@
             "date": 1686391254885,
             "name": "C:\\projects\\harri-eCommerce-backend\\logs\\errors\\dynamic-2023-06-10-16-error.log",
             "hash": "ab04d8f0b45beebbe4fd679fb2465adb98b068aba6ddd6ffd12ca707cffa8e50"
+        },
+        {
+            "date": 1686396178628,
+            "name": "C:\\projects\\harri-eCommerce-backend\\logs\\errors\\dynamic-2023-06-10-17-error.log",
+            "hash": "61eebfed2c79c4de82d73ba8d5dac00fbbe24010254734660f30bd6f4ceda950"
         }
     ],
     "hashType": "sha256"
