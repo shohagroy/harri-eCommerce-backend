@@ -13,6 +13,8 @@ export const createNewProductToDB = async (data: IProduct) => {
 export const getAllProductsToDB = async (query: any) => {
   const { search, skip, sort, searchByCategory } = query;
 
+  const searByProductName = search === "undefined" ? "" : search.toLowerCase();
+
   const result = await Product.aggregate([
     {
       $facet: {
@@ -32,7 +34,7 @@ export const getAllProductsToDB = async (query: any) => {
                   ? {
                       "category.id": new Types.ObjectId(searchByCategory),
                     }
-                  : { title: { $regex: search } },
+                  : { title: { $regex: searByProductName } },
               ],
             },
           },
