@@ -7,13 +7,15 @@ import googleConfig from "../../configs/google.config";
 
 export const createNewUser: RequestHandler = async (req, res, next) => {
   try {
-    const token = await createNewUserToDb(req.body);
+    const user = await createNewUserToDb(req.body);
+    const token = await generateToken(user);
 
     res.setHeader("Set-Cookie", `harriShop=${token}; Path=/;`);
 
     res.status(201).json({
       status: "success",
       message: "User created successfully!",
+      user: user,
       token,
     });
   } catch (error) {
@@ -42,11 +44,14 @@ export const userLogin: RequestHandler = (req, res, next) => {
 
         const token = generateToken(user);
 
+        user.password = "";
+
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Set-Cookie", `harriShop=${token}; Path=/;`);
         res.status(201).json({
           status: "success",
           message: "User Login Successfully!",
+          user: user,
           token,
         });
       });
@@ -56,6 +61,7 @@ export const userLogin: RequestHandler = (req, res, next) => {
 
 export const findLoginUser: RequestHandler = async (req, res, next) => {
   const user: any = req.user;
+
   try {
     const loginUser = await fintLoginUserToDb(user?._id);
     res.status(200).json({
@@ -76,5 +82,13 @@ export const userLoginWithGoogle: RequestHandler = async (req, res, next) => {
     status: "success",
     message: "google auth url",
     data: authenticationURL,
+  });
+};
+
+export const userLogout: RequestHandler = (req, res, next) => {
+  console.log("user logged out");
+  res.status(200).json({
+    status: "success",
+    message: "user logout successfully",
   });
 };

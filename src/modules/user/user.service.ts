@@ -25,9 +25,9 @@ export const createNewUserToDb = async (userInfo: InitialUser) => {
     };
 
     const createUser = await User.create(newUser);
-    const token = await generateToken(createUser);
+    createUser.password = "";
 
-    return token;
+    return createUser;
   } else {
     throw new ApiError(400, "Email is Already Registered!");
   }

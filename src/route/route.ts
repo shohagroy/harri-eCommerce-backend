@@ -19,6 +19,7 @@ import {
   findLoginUser,
   userLogin,
   userLoginWithGoogle,
+  userLogout,
 } from "../modules/user/user.controller";
 
 const router = express.Router();
@@ -44,5 +45,6 @@ router.route("/create-user").post(createNewUser);
 router.route("/login-user").post(userLogin);
 router.route("/login/auth/google").get(userLoginWithGoogle);
 router.route("/get-login-user").get(verifiedLoginUser, findLoginUser);
+router.route("/logout-user").post(userLogout);
 
 export default router;
