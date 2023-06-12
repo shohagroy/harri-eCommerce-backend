@@ -14,6 +14,7 @@ export const createNewUser: RequestHandler = async (req, res, next) => {
     res.status(201).json({
       status: "success",
       message: "User created successfully!",
+      token,
     });
   } catch (error) {
     next(error);
@@ -29,7 +30,6 @@ export const userLogin: RequestHandler = (req, res, next) => {
       }
 
       if (!user) {
-        console.log("Authentication failed");
         return res
           .status(401)
           .json({ message: "Email or Password Incorrect!" });
@@ -42,10 +42,12 @@ export const userLogin: RequestHandler = (req, res, next) => {
 
         const token = generateToken(user);
 
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Set-Cookie", `harriShop=${token}; Path=/;`);
         res.status(201).json({
           status: "success",
-          message: "User created successfully!",
+          message: "User Login Successfully!",
+          token,
         });
       });
     }
