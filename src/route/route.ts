@@ -14,6 +14,7 @@ import {
   postNewProduct,
   updateProductById,
 } from "../modules/product/product.controller";
+
 import {
   createNewUser,
   findLoginUser,
@@ -21,6 +22,8 @@ import {
   userLoginWithGoogle,
   userLogout,
 } from "../modules/user/user.controller";
+
+import { postUserWishList } from "../modules/wishList/wishList.controller";
 
 const router = express.Router();
 
@@ -46,5 +49,8 @@ router.route("/login-user").post(userLogin);
 router.route("/login/auth/google").get(userLoginWithGoogle);
 router.route("/get-login-user").get(verifiedLoginUser, findLoginUser);
 router.route("/logout-user").post(userLogout);
+
+// wish lists route
+router.route("/wish-lists").post(postUserWishList);
 
 export default router;
