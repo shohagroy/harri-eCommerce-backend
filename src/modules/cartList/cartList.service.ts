@@ -1,16 +1,16 @@
 import User from "../user/user.interface";
-import WishListProduct, { IWIshList } from "./wishList.interface";
+import CartListProduct, { ICartProduct } from "./cartList.interface";
 
-export const createUserWishListProductToDB = async (
-  data: IWIshList,
+export const createUserCartListProductToDB = async (
+  data: ICartProduct,
   user: any
 ) => {
   const { productId } = data;
 
-  const product = await WishListProduct.findOne({ productId: productId });
+  const product = await CartListProduct.findOne({ productId: productId });
 
   if (!product) {
-    const response = await WishListProduct.create({
+    const response = await CartListProduct.create({
       ...data,
       userId: user._id,
     });
@@ -22,7 +22,7 @@ export const createUserWishListProductToDB = async (
       return "Added to wish list!";
     }
   } else {
-    const response = await WishListProduct.findOneAndDelete({
+    const response = await CartListProduct.findOneAndDelete({
       productId: productId,
     });
     if (response) {
@@ -35,8 +35,8 @@ export const createUserWishListProductToDB = async (
   }
 };
 
-export const getAallUserWishListToDB = async (user: any) => {
-  const userWishLists = await WishListProduct.find({ userId: user?._id });
+export const getAallUserCartListToDB = async (user: any) => {
+  const userWishLists = await CartListProduct.find({ userId: user?._id });
 
   return userWishLists;
 };

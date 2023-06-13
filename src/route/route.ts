@@ -1,5 +1,7 @@
 import express from "express";
 import verifiedLoginUser from "../middlewares/verifyTokenUser";
+import { postUserCartList } from "../modules/cartList/cartList.controller";
+import { getAallUserCartListToDB } from "../modules/cartList/cartList.service";
 import {
   deleteCategoryById,
   getAllCategorys,
@@ -58,5 +60,11 @@ router
   .route("/wish-lists")
   .post(verifiedLoginUser, postUserWishList)
   .get(verifiedLoginUser, getAllUserWishLists);
+
+// cart lists route
+router
+  .route("/cart-lists")
+  .post(verifiedLoginUser, postUserCartList)
+  .get(verifiedLoginUser, getAallUserCartListToDB);
 
 export default router;
