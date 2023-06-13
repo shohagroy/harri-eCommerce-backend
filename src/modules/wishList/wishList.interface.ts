@@ -8,6 +8,7 @@ export interface IWIshList extends Document {
   discount: number;
   totalPrice: number;
   productId: Types.ObjectId;
+  userId: Types.ObjectId;
 }
 
 const wishListSchema: Schema<IWIshList> = new Schema<IWIshList>(
@@ -47,6 +48,11 @@ const wishListSchema: Schema<IWIshList> = new Schema<IWIshList>(
       trim: true,
     },
     productId: {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
+    },
+    userId: {
       type: Schema.Types.ObjectId,
       ref: "Product",
       required: true,

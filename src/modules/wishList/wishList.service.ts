@@ -11,7 +11,10 @@ export const createUserWishListProductToDB = async (
   const product = await WishListProduct.findOne({ productId: productId });
 
   if (!product) {
-    const response = await WishListProduct.create(data);
+    const response = await WishListProduct.create({
+      ...data,
+      userId: user._id,
+    });
     if (response) {
       await User.updateOne(
         { _id: user._id },
@@ -31,6 +34,12 @@ export const createUserWishListProductToDB = async (
       return "Removed from wish list!";
     }
   }
+};
+
+export const getAallUserWishListToDB = async (user: any) => {
+  const userWishLists = await WishListProduct.find({ userId: user?._id });
+
+  return userWishLists;
 };
 
 // export const getAllCategorysToDB = async (query: any) => {

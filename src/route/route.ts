@@ -23,7 +23,10 @@ import {
   userLogout,
 } from "../modules/user/user.controller";
 
-import { postUserWishList } from "../modules/wishList/wishList.controller";
+import {
+  getAllUserWishLists,
+  postUserWishList,
+} from "../modules/wishList/wishList.controller";
 
 const router = express.Router();
 
@@ -51,6 +54,9 @@ router.route("/get-login-user").get(verifiedLoginUser, findLoginUser);
 router.route("/logout-user").post(userLogout);
 
 // wish lists route
-router.route("/wish-lists").post(verifiedLoginUser, postUserWishList);
+router
+  .route("/wish-lists")
+  .post(verifiedLoginUser, postUserWishList)
+  .get(verifiedLoginUser, getAllUserWishLists);
 
 export default router;
