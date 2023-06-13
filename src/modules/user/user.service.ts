@@ -22,6 +22,9 @@ export const createNewUserToDb = async (userInfo: InitialUser) => {
       address: "",
       role: "user",
       verified: false,
+      wishList: [],
+      cartList: [],
+      buyerList: [],
     };
 
     const createUser = await User.create(newUser);

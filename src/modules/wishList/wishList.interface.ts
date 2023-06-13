@@ -1,13 +1,13 @@
-import { Document, model, Model, Schema } from "mongoose";
+import { Document, model, Model, Schema, Types } from "mongoose";
 
 export interface IWIshList extends Document {
   title: string;
   images: string;
   unit: string;
-  quantity: number;
   price: number;
+  discount: number;
   totalPrice: number;
-  productId: string;
+  productId: Types.ObjectId;
 }
 
 const wishListSchema: Schema<IWIshList> = new Schema<IWIshList>(
@@ -31,13 +31,12 @@ const wishListSchema: Schema<IWIshList> = new Schema<IWIshList>(
       lowercase: true,
       trim: true,
     },
-    quantity: {
+    price: {
       type: Number,
       required: true,
-      default: 1,
-      min: 1,
+      trim: true,
     },
-    price: {
+    discount: {
       type: Number,
       required: true,
       trim: true,
@@ -48,11 +47,9 @@ const wishListSchema: Schema<IWIshList> = new Schema<IWIshList>(
       trim: true,
     },
     productId: {
-      id: {
-        type: Schema.Types.ObjectId,
-        ref: "Product",
-        required: true,
-      },
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
     },
   },
   {

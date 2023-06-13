@@ -1,10 +1,36 @@
 import { Types } from "mongoose";
-import { IProduct } from "../product/product.interface";
-// import Category, { ICategory } from "./category.interface";
+import User from "../user/user.interface";
+import WishListProduct, { IWIshList } from "./wishList.interface";
 
-export const createUserWishListProductToDB = async (data: IProduct) => {
-  //   const response = await Category.create({ ...data, icon: icon });
-  return null;
+export const createUserWishListProductToDB = async (
+  data: IWIshList,
+  user: any
+) => {
+  const { productId } = data;
+
+  const product = await WishListProduct.findOne({ productId: productId });
+
+  if (!product) {
+    const response = await WishListProduct.create(data);
+    if (response) {
+      await User.updateOne(
+        { _id: user._id },
+        { $push: { wishList: productId } }
+      );
+      return "Added to wish list!";
+    }
+  } else {
+    const response = await WishListProduct.findOneAndDelete({
+      productId: productId,
+    });
+    if (response) {
+      await User.updateOne(
+        { _id: user._id },
+        { $pull: { wishList: productId } }
+      );
+      return "Removed from wish list!";
+    }
+  }
 };
 
 // export const getAllCategorysToDB = async (query: any) => {

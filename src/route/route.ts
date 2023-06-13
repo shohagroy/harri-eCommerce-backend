@@ -51,6 +51,6 @@ router.route("/get-login-user").get(verifiedLoginUser, findLoginUser);
 router.route("/logout-user").post(userLogout);
 
 // wish lists route
-router.route("/wish-lists").post(postUserWishList);
+router.route("/wish-lists").post(verifiedLoginUser, postUserWishList);
 
 export default router;

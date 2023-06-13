@@ -16,6 +16,9 @@ export interface IUser extends Document {
   address: string;
   role: string;
   verified: boolean;
+  wishList: string[];
+  cartList: string[];
+  buyList: string[];
 }
 
 const userSchema: Schema<IUser> = new Schema<IUser>(
@@ -59,6 +62,9 @@ const userSchema: Schema<IUser> = new Schema<IUser>(
     verified: {
       type: Boolean,
     },
+    wishList: [],
+    cartList: [],
+    buyList: [],
   },
   {
     timestamps: true,

@@ -56,6 +56,9 @@ const passportConfig = (passport: PassportStatic) => {
           address: "",
           role: "user",
           verified: email_verified,
+          wishList: [],
+          cartList: [],
+          buyerList: [],
         };
 
         try {
