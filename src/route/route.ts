@@ -1,7 +1,9 @@
 import express from "express";
 import verifiedLoginUser from "../middlewares/verifyTokenUser";
-import { postUserCartList } from "../modules/cartList/cartList.controller";
-import { getAallUserCartListToDB } from "../modules/cartList/cartList.service";
+import {
+  getAllUserCartLists,
+  postUserCartList,
+} from "../modules/cartList/cartList.controller";
 import {
   deleteCategoryById,
   getAllCategorys,
@@ -65,6 +67,6 @@ router
 router
   .route("/cart-lists")
   .post(verifiedLoginUser, postUserCartList)
-  .get(verifiedLoginUser, getAallUserCartListToDB);
+  .get(verifiedLoginUser, getAllUserCartLists);
 
 export default router;

@@ -6,7 +6,7 @@ export interface ICartProduct extends Document {
   unit: string;
   price: number;
   discount: number;
-  totalPrice: number;
+  quantity: number;
   productId: Types.ObjectId;
   userId: Types.ObjectId;
 }
@@ -42,9 +42,10 @@ const cartListSchema: Schema<ICartProduct> = new Schema<ICartProduct>(
       required: true,
       trim: true,
     },
-    totalPrice: {
+    quantity: {
       type: Number,
       required: true,
+      default: 1,
       trim: true,
     },
     productId: {

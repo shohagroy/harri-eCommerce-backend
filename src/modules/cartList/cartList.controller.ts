@@ -23,7 +23,7 @@ export const getAllUserCartLists: RequestHandler = async (req, res, next) => {
 
     res.status(201).json({
       status: "success",
-      message: "user wish list get successfully!",
+      message: "user cart list get successfully!",
       data: response,
     });
   } catch (error) {

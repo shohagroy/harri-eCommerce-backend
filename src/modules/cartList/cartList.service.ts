@@ -17,9 +17,9 @@ export const createUserCartListProductToDB = async (
     if (response) {
       await User.updateOne(
         { _id: user._id },
-        { $push: { wishList: productId } }
+        { $push: { cartList: productId } }
       );
-      return "Added to wish list!";
+      return "Added to Cart list!";
     }
   } else {
     const response = await CartListProduct.findOneAndDelete({
@@ -28,15 +28,18 @@ export const createUserCartListProductToDB = async (
     if (response) {
       await User.updateOne(
         { _id: user._id },
-        { $pull: { wishList: productId } }
+        { $pull: { cartList: productId } }
       );
-      return "Removed from wish list!";
+      return "Removed from Cart list!";
     }
   }
 };
 
 export const getAallUserCartListToDB = async (user: any) => {
-  const userWishLists = await CartListProduct.find({ userId: user?._id });
+  // console.log(user);
+  const userCartLists = await CartListProduct.find({ userId: user?._id });
 
-  return userWishLists;
+  // console.log(userCartLists);
+
+  return userCartLists;
 };
