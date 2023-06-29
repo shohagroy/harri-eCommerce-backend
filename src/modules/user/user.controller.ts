@@ -1,7 +1,11 @@
 import { RequestHandler } from "express";
 import passport from "passport";
 import { IUser } from "./user.interface";
-import { createNewUserToDb, fintLoginUserToDb } from "./user.service";
+import {
+  createNewUserToDb,
+  fintLoginUserToDb,
+  updateUserInfoToDb,
+} from "./user.service";
 import generateToken from "../../utils/generateToken";
 import googleConfig from "../../configs/google.config";
 
@@ -85,10 +89,22 @@ export const userLoginWithGoogle: RequestHandler = async (req, res, next) => {
   });
 };
 
-export const userLogout: RequestHandler = (req, res, next) => {
+export const userLogout: RequestHandler = async (req, res, next) => {
   console.log("user logged out");
   res.status(200).json({
     status: "success",
     message: "user logout successfully",
+  });
+};
+
+export const updateUserInfo: RequestHandler = async (req, res) => {
+  const user: any = req.user;
+  const payload: IUser = req.body;
+
+  const response = await updateUserInfoToDb(user._id, payload);
+  res.status(200).json({
+    status: "success",
+    message: "User Information Updated!",
+    data: response,
   });
 };

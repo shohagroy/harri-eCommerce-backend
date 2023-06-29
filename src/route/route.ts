@@ -23,6 +23,7 @@ import {
 import {
   createNewUser,
   findLoginUser,
+  updateUserInfo,
   userLogin,
   userLoginWithGoogle,
   userLogout,
@@ -70,5 +71,8 @@ router
   .post(verifiedLoginUser, postUserCartList)
   .get(verifiedLoginUser, getAllUserCartLists)
   .patch(verifiedLoginUser, updateCartQuantaty);
+
+// user information route
+router.route("/userInfo").patch(verifiedLoginUser, updateUserInfo);
 
 export default router;

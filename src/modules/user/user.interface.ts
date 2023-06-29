@@ -14,6 +14,9 @@ export interface IUser extends Document {
   password: string;
   phone: string;
   address: string;
+  city: string;
+  state: string;
+  zip: string;
   role: string;
   verified: boolean;
   wishList: string[];
@@ -53,6 +56,17 @@ const userSchema: Schema<IUser> = new Schema<IUser>(
     address: {
       type: String,
     },
+
+    city: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+    zip: {
+      type: String,
+    },
+
     role: {
       type: String,
       enum: ["user", "admin", "superadmin"],

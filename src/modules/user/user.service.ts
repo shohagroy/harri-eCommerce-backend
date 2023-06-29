@@ -1,5 +1,5 @@
 import ApiError from "../../errors/ApiError";
-import User, { InitialUser } from "./user.interface";
+import User, { IUser, InitialUser } from "./user.interface";
 import bcrypt from "bcrypt";
 import generateToken from "../../utils/generateToken";
 
@@ -40,4 +40,9 @@ export const fintLoginUserToDb = async (id: any) => {
   const response = await User.findById(id).select("-password");
 
   return response;
+};
+
+export const updateUserInfoToDb = async (_id: string, payload: IUser) => {
+  const result = await User.findByIdAndUpdate({ _id }, payload);
+  return result;
 };
