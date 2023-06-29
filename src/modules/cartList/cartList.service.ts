@@ -35,11 +35,18 @@ export const createUserCartListProductToDB = async (
   }
 };
 
+export const cartListProductQuentatyUpdated = async (
+  _id: string,
+  quantity: number
+) => {
+  const updatedData = { quantity: quantity };
+
+  const cartItem = CartListProduct.findOneAndUpdate({ _id }, updatedData);
+
+  return cartItem;
+};
+
 export const getAallUserCartListToDB = async (user: any) => {
-  // console.log(user);
   const userCartLists = await CartListProduct.find({ userId: user?._id });
-
-  // console.log(userCartLists);
-
   return userCartLists;
 };

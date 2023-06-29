@@ -3,6 +3,7 @@ import verifiedLoginUser from "../middlewares/verifyTokenUser";
 import {
   getAllUserCartLists,
   postUserCartList,
+  updateCartQuantaty,
 } from "../modules/cartList/cartList.controller";
 import {
   deleteCategoryById,
@@ -67,6 +68,7 @@ router
 router
   .route("/cart-lists")
   .post(verifiedLoginUser, postUserCartList)
-  .get(verifiedLoginUser, getAllUserCartLists);
+  .get(verifiedLoginUser, getAllUserCartLists)
+  .patch(verifiedLoginUser, updateCartQuantaty);
 
 export default router;
