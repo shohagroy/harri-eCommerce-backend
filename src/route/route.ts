@@ -80,7 +80,7 @@ router
 router.route("/userInfo").patch(verifiedLoginUser, updateUserInfo);
 
 // user information route
-// router.route("/product-reviews").post(verifiedLoginUser, postProductReview);
+router.route("/product-reviews").post(verifiedLoginUser, postProductReview);
 router.route("/product-reviews/:id").get(verifiedLoginUser, getProductReviews);
 
 export default router;
