@@ -107,7 +107,6 @@ const passportConfig = (passport: PassportStatic) => {
     _id: any,
     done: (err: any, user?: any) => void
   ) {
-    console.log(_id);
     User.findOne({ _id })
       .then((user) => {
         done(null, user);

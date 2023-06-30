@@ -1,7 +1,7 @@
 import ApiError from "../../errors/ApiError";
 import User, { IUser, InitialUser } from "./user.interface";
 import bcrypt from "bcrypt";
-import generateToken from "../../utils/generateToken";
+import uploadImages from "../../utils/uploadImages";
 
 export const createNewUserToDb = async (userInfo: InitialUser) => {
   const { email, password, confirmPassword } = userInfo;
@@ -46,6 +46,12 @@ export const fintLoginUserToDb = async (id: any) => {
 };
 
 export const updateUserInfoToDb = async (_id: string, payload: IUser) => {
-  const result = await User.findByIdAndUpdate({ _id }, payload);
+  const imageData = [payload?.avatar];
+  const avatar = await uploadImages(imageData);
+
+  const updatedData = { ...payload, avatar: avatar[0].url };
+
+  const result = await User.findByIdAndUpdate({ _id }, updatedData);
+
   return result;
 };
