@@ -33,7 +33,10 @@ import {
   getAllUserWishLists,
   postUserWishList,
 } from "../modules/wishList/wishList.controller";
-import { postProductReview } from "../modules/review/review.controller";
+import {
+  getProductReviews,
+  postProductReview,
+} from "../modules/review/review.controller";
 
 const router = express.Router();
 
@@ -77,6 +80,7 @@ router
 router.route("/userInfo").patch(verifiedLoginUser, updateUserInfo);
 
 // user information route
-router.route("/product-reviews").post(verifiedLoginUser, postProductReview);
+// router.route("/product-reviews").post(verifiedLoginUser, postProductReview);
+router.route("/product-reviews/:id").get(verifiedLoginUser, getProductReviews);
 
 export default router;

@@ -9,3 +9,8 @@ export const postNewReviewToDb = async (payload: IReview) => {
     return "Something went wrong!";
   }
 };
+
+export const getProductReviewToDb = async (id: string) => {
+  const result = await Review.find({ productId: id });
+  return result;
+};
