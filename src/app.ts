@@ -83,10 +83,9 @@ app.get(
       const token = await generateToken(user);
 
       const redirectUrl =
-        envConfig.DEVELOPMENT !== "production"
-          ? `http://localhost:3000?token=${token}`
-          : `${envConfig.CLIENT_URL}?token=${token}`;
-
+        envConfig.DEVELOPMENT !== "development"
+          ? `${envConfig.CLIENT_URL}?token=${token}`
+          : `http://localhost:3000?token=${token}`;
       res.setHeader("Set-Cookie", `harriShop=${token}; Path=/;`);
       res.redirect(redirectUrl);
     })(req, res, next);
