@@ -23,12 +23,10 @@ const reviewSchema: Schema<IReview> = new Schema<IReview>(
     },
     userName: {
       type: String,
-      required: true,
       trim: true,
     },
     userAvatar: {
       type: String,
-      required: true,
       trim: true,
     },
     reviewDate: {

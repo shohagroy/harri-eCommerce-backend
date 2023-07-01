@@ -1,5 +1,4 @@
 import { RequestHandler } from "express";
-import { getCheckoutProductsToDb } from "./checkout.service";
 import { getAallUserCartListToDB } from "../cartList/cartList.service";
 import { getProductToDB } from "../product/product.service";
 
@@ -15,7 +14,10 @@ export const getAllCheckoutProducts: RequestHandler = async (
     if (id === "allCart") {
       response = await getAallUserCartListToDB(req.user);
     } else {
-      response = [await getProductToDB(id)];
+      const checkoutProduct = await getProductToDB(id);
+      checkoutProduct?.quantity ? (checkoutProduct.quantity = 1) : null;
+
+      response = [checkoutProduct];
     }
 
     res.status(200).json({
