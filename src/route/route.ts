@@ -37,7 +37,12 @@ import {
   getProductReviews,
   postProductReview,
 } from "../modules/review/review.controller";
-import { getAllCheckoutProducts } from "../modules/checkout/checkout.controller";
+import {
+  createNewCheckout,
+  getAllCheckoutProducts,
+  paymentFail,
+  paymentSuccess,
+} from "../modules/checkout/checkout.controller";
 
 const router = express.Router();
 
@@ -85,7 +90,10 @@ router.route("/product-reviews").post(verifiedLoginUser, postProductReview);
 router.route("/product-reviews/:id").get(verifiedLoginUser, getProductReviews);
 
 // user information route
-// router.route("/product-reviews").post(verifiedLoginUser, postProductReview);
+router.route("/checkout").post(verifiedLoginUser, createNewCheckout);
 router.route("/checkout/:id").get(verifiedLoginUser, getAllCheckoutProducts);
+
+router.route("/payment/success").post(paymentSuccess);
+router.route("/payment/fail").post(paymentFail);
 
 export default router;

@@ -8,6 +8,12 @@ import passportConfig from "./configs/passport.config";
 import session from "express-session";
 import { IUser } from "./modules/user/user.interface";
 import generateToken from "./utils/generateToken";
+import { createProxyMiddleware } from "http-proxy-middleware";
+
+const sslcommerzProxy = createProxyMiddleware({
+  target: "https://sandbox.sslcommerz.com",
+  changeOrigin: true,
+});
 
 const express = require("express");
 const cors = require("cors");

@@ -3,8 +3,6 @@ const mongoose = require("mongoose");
 import env from "./configs/env.config";
 import { errorLogger, logger } from "./shared/loggar";
 
-import { Server } from "http";
-
 const uri: string | undefined =
   process.env.NODE_ENV !== "production"
     ? "mongodb://127.0.0.1:27017/harri_shop"
