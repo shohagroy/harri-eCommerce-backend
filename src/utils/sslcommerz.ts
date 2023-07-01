@@ -66,9 +66,11 @@ const paymentRedirectUrl = async (payload: ICheckout) => {
     const apiResponse = await sslcz.init(data);
     // Redirect the user to payment gateway
     const GatewayPageURL = apiResponse.GatewayPageURL;
+    console.log(GatewayPageURL);
 
     return GatewayPageURL;
   } catch (error) {
+    console.log(error);
     throw new ApiError(400, "SSLCommerz Payment Initialization Error");
   }
 };
