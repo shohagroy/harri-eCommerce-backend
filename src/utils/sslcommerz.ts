@@ -17,8 +17,10 @@ const paymentRedirectUrl = async (payload: ICheckout) => {
     totalPrice,
   } = payload || {};
 
-  const store_id = envConfig.SLL_STORE_ID;
-  const store_passwd = envConfig.SLL_STORE_PASSWORD;
+  //   const store_id = envConfig.SLL_STORE_ID;
+  //   const store_passwd = envConfig.SLL_STORE_PASSWORD;
+  const store_id = "harri649ffdf92ab2b";
+  const store_passwd = "harri649ffdf92ab2b@ssl";
   const is_live = envConfig.DEVELOPMENT === "development" ? false : true;
 
   const data = {
