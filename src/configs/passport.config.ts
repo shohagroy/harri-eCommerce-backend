@@ -39,6 +39,7 @@ const passportConfig = (passport: PassportStatic) => {
           envConfig.DEVELOPMENT === "development"
             ? envConfig.GOOGGLE_CALL_BACK_URL
             : `${envConfig.SERVER_URL}/auth/callback`,
+        // callbackURL: `${envConfig.SERVER_URL}/auth/callback`,
       },
       async function (
         accessToken: string,
