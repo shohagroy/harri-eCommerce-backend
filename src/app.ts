@@ -9,6 +9,19 @@ import session from "express-session";
 import { IUser } from "./modules/user/user.interface";
 import generateToken from "./utils/generateToken";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import envConfig from "./configs/env.config";
+// import connectMongo from "connect-mongodb-session";
+import connectMongo from "connect-mongodb-session";
+
+const MongoDBStore = connectMongo(session);
+
+const store = new MongoDBStore({
+  uri:
+    process.env.NODE_ENV !== "production"
+      ? "mongodb://127.0.0.1:27017/harri_shop"
+      : envConfig.DB_URI || "mongodb://127.0.0.1:27017/harri_shop",
+  collection: "sessions", // Collection name for storing sessions
+});
 
 const sslcommerzProxy = createProxyMiddleware({
   target: "https://sandbox.sslcommerz.com",
@@ -38,6 +51,7 @@ app.use(
     secret: "your-secret-key", // Replace with your own secret key
     resave: false,
     saveUninitialized: false,
+    store: store,
     cookie: {
       secure: false, // Set it to true if using HTTPS
       httpOnly: true,
