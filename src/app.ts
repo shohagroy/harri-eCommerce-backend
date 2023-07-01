@@ -52,6 +52,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/v1", router);
 app.use(globalErrorHandler);
+app.use(sslcommerzProxy);
 
 app.use(passport.initialize());
 app.use(passport.session());
