@@ -66,7 +66,6 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/v1", router);
 app.use(globalErrorHandler);
-app.use(sslcommerzProxy);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -84,9 +83,11 @@ app.get(
       const token = await generateToken(user);
 
       res.setHeader("Set-Cookie", `harriShop=${token}; Path=/;`);
-      res.redirect("http://localhost:3000");
+      res.redirect(`http://localhost:3000?token=${token}`);
     })(req, res, next);
   }
 );
+
+app.use(sslcommerzProxy);
 
 export default app;
