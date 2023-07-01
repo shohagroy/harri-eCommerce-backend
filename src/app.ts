@@ -82,8 +82,13 @@ app.get(
     passport.authenticate("google", async (error: Error, user: IUser) => {
       const token = await generateToken(user);
 
+      const redirectUrl =
+        envConfig.DEVELOPMENT !== "production"
+          ? `http://localhost:3000?token=${token}`
+          : `${envConfig.CLIENT_URL}?token=${token}`;
+
       res.setHeader("Set-Cookie", `harriShop=${token}; Path=/;`);
-      res.redirect(`http://localhost:3000?token=${token}`);
+      res.redirect(redirectUrl);
     })(req, res, next);
   }
 );
