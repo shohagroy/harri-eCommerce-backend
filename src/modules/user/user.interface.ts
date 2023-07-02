@@ -48,6 +48,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>(
       trim: true,
     },
     password: {
+      select: 0,
       type: String,
     },
     phone: {

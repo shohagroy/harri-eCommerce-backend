@@ -55,3 +55,9 @@ export const updateUserInfoToDb = async (_id: string, payload: IUser) => {
 
   return result;
 };
+
+export const getAllUserToDb = async () => {
+  const response = await User.find();
+
+  return response;
+};

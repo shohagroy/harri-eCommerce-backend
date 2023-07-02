@@ -68,8 +68,6 @@ export const paymentSuccess: RequestHandler = async (req, res, next) => {
         ? `${envConfig.CLIENT_URL}?transaction_id=${result?._id}`
         : `http://localhost:3000/?transaction_id=${result?._id}`;
 
-    console.log(redirectUrl);
-
     if (result) {
       res.redirect(redirectUrl);
     }
@@ -88,8 +86,6 @@ export const paymentFail: RequestHandler = async (req, res, next) => {
       envConfig.DEVELOPMENT === "production"
         ? `${envConfig.CLIENT_URL}?transaction_id=${result?._id}`
         : `http://localhost:3000/?transaction=failure`;
-
-    console.log(redirectUrl);
 
     if (result) {
       res.redirect(redirectUrl);

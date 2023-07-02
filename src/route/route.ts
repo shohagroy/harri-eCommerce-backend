@@ -23,6 +23,7 @@ import {
 import {
   createNewUser,
   findLoginUser,
+  getAllUsers,
   updateUserInfo,
   userLogin,
   userLoginWithGoogle,
@@ -83,7 +84,10 @@ router
   .patch(verifiedLoginUser, updateCartQuantaty);
 
 // user information route
-router.route("/userInfo").patch(verifiedLoginUser, updateUserInfo);
+router
+  .route("/users")
+  .patch(verifiedLoginUser, updateUserInfo)
+  .get(verifiedLoginUser, getAllUsers);
 
 // user information route
 router.route("/product-reviews").post(verifiedLoginUser, postProductReview);

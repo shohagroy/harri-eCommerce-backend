@@ -4,6 +4,7 @@ import { IUser } from "./user.interface";
 import {
   createNewUserToDb,
   fintLoginUserToDb,
+  getAllUserToDb,
   updateUserInfoToDb,
 } from "./user.service";
 import generateToken from "../../utils/generateToken";
@@ -105,6 +106,16 @@ export const updateUserInfo: RequestHandler = async (req, res) => {
   res.status(200).json({
     status: "success",
     message: "User Information Updated!",
+    data: response,
+  });
+};
+
+export const getAllUsers: RequestHandler = async (req, res) => {
+  const response = await getAllUserToDb();
+
+  res.status(200).json({
+    status: "success",
+    message: "Users recvied Successfully!",
     data: response,
   });
 };
