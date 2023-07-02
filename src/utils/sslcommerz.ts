@@ -27,15 +27,15 @@ const paymentRedirectUrl = async (payload: ICheckout) => {
     tran_id: _id.toString(),
     success_url:
       envConfig.DEVELOPMENT === "production"
-        ? `${envConfig.SERVER_URL}/payment/success?tran_id=${_id}`
+        ? `${envConfig.SERVER_URL}/api/v1/payment/success?tran_id=${_id}`
         : `http://localhost:5000/api/v1/payment/success?tran_id=${_id}`,
     fail_url:
       envConfig.DEVELOPMENT === "production"
-        ? `${envConfig.SERVER_URL}/payment/fail?tran_id=${_id}`
+        ? `${envConfig.SERVER_URL}/api/v1/payment/fail?tran_id=${_id}`
         : `http://localhost:5000/api/v1/payment/fail?tran_id=${_id}`,
     cancel_url:
       envConfig.DEVELOPMENT === "production"
-        ? `${envConfig.SERVER_URL}/payment/fail?tran_id=${_id}`
+        ? `${envConfig.SERVER_URL}/api/v1/payment/fail?tran_id=${_id}`
         : `http://localhost:5000/api/v1/payment/fail?tran_id=${_id}`,
     ipn_url: "/",
     shipping_method: "Courier",
