@@ -79,26 +79,19 @@ app.get(
 app.get(
   "/auth/callback",
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("auth call");
-    try {
-      passport.authenticate("google", async (error: Error, user: IUser) => {
-        console.log(user);
-        // const token = await generateToken(user);
+    passport.authenticate("google", async (error: Error, user: IUser) => {
+      const token = await generateToken(user);
+      const redirectUrl =
+        envConfig.DEVELOPMENT !== "development"
+          ? `${envConfig.CLIENT_URL}?token=${token}`
+          : `http://localhost:3000?token=${token}`;
+      res.setHeader("Set-Cookie", `harriShop=${token}; Path=/;`);
 
-        const redirectUrl =
-          envConfig.DEVELOPMENT !== "development"
-            ? `${envConfig.CLIENT_URL}?token=${""}`
-            : `http://localhost:3000?token=${""}`;
-        res.setHeader("Set-Cookie", `harriShop=${""}; Path=/;`);
-
-        res.redirect(redirectUrl);
-      })(req, res, next);
-    } catch (error) {
-      console.log(error);
-    }
+      res.redirect(redirectUrl);
+    })(req, res, next);
   }
 );
 
-// app.use(sslcommerzProxy);
+app.use(sslcommerzProxy);
 
 export default app;

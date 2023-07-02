@@ -4,7 +4,6 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy, Profile } from "passport-google-oauth20";
 import User from "../modules/user/user.interface";
 import envConfig from "./env.config";
-import mongoose from "mongoose";
 
 const passportConfig = (passport: PassportStatic) => {
   passport.use(
@@ -19,7 +18,6 @@ const passportConfig = (passport: PassportStatic) => {
           }
 
           if (!compareSync(password, user.password)) {
-            console.log("Incorrect password");
             return done(null, false, { message: "Incorrect password." });
           }
 
@@ -74,7 +72,6 @@ const passportConfig = (passport: PassportStatic) => {
           if (!user) {
             const newUser = await User.create(googleUser);
 
-            console.log(newUser);
             return cb(null, newUser);
           }
 
@@ -94,10 +91,8 @@ const passportConfig = (passport: PassportStatic) => {
             { new: true }
           );
 
-          console.log(newUpdatedUser);
           return cb(null, newUpdatedUser);
         } catch (error) {
-          console.log(error);
           return cb(error, null);
         }
       }
@@ -117,7 +112,6 @@ const passportConfig = (passport: PassportStatic) => {
   ) {
     User.findOne({ _id })
       .then((user) => {
-        console.log(user);
         done(null, user);
       })
       .catch((error: Error) => {
