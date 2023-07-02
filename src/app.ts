@@ -81,6 +81,7 @@ app.get(
   async (req: Request, res: Response, next: NextFunction) => {
     console.log("auth call");
     passport.authenticate("google", async (error: Error, user: IUser) => {
+      console.log(user);
       const token = await generateToken(user);
 
       const redirectUrl =
