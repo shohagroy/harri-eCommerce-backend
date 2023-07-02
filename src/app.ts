@@ -80,17 +80,17 @@ app.get(
   "/auth/callback",
   async (req: Request, res: Response, next: NextFunction) => {
     console.log("auth call");
-    // passport.authenticate("google", async (error: Error, user: IUser) => {
-    //   const token = await generateToken(user);
+    passport.authenticate("google", async (error: Error, user: IUser) => {
+      const token = await generateToken(user);
 
-    //   const redirectUrl =
-    //     envConfig.DEVELOPMENT !== "development"
-    //       ? `${envConfig.CLIENT_URL}?token=${token}`
-    //       : `http://localhost:3000?token=${token}`;
-    //   res.setHeader("Set-Cookie", `harriShop=${token}; Path=/;`);
+      const redirectUrl =
+        envConfig.DEVELOPMENT !== "development"
+          ? `${envConfig.CLIENT_URL}?token=${token}`
+          : `http://localhost:3000?token=${token}`;
+      res.setHeader("Set-Cookie", `harriShop=${token}; Path=/;`);
 
-    //   res.redirect(redirectUrl);
-    // })(req, res, next);
+      res.redirect(redirectUrl);
+    })(req, res, next);
   }
 );
 
