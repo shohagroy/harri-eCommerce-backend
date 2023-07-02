@@ -49,7 +49,7 @@ const passportConfig = (passport: PassportStatic) => {
         const { sub, given_name, family_name, picture, email, email_verified } =
           profile?._json;
 
-        const gogleUser = {
+        const googleUser = {
           firstName: given_name,
           lastName: family_name,
           avatar: picture,
@@ -67,11 +67,13 @@ const passportConfig = (passport: PassportStatic) => {
           buyerList: [],
         };
 
+        console.log("passport config: ", googleUser);
+
         try {
           const user = await User.findOne({ email: email });
 
           if (!user) {
-            const newUser = await User.create(gogleUser);
+            const newUser = await User.create(googleUser);
             return cb(null, newUser);
           }
 
