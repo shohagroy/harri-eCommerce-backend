@@ -73,6 +73,8 @@ const passportConfig = (passport: PassportStatic) => {
 
           if (!user) {
             const newUser = await User.create(googleUser);
+
+            console.log(newUser);
             return cb(null, newUser);
           }
 
@@ -92,6 +94,7 @@ const passportConfig = (passport: PassportStatic) => {
             { new: true }
           );
 
+          console.log(newUpdatedUser);
           return cb(null, newUpdatedUser);
         } catch (error) {
           return cb(error, null);

@@ -82,13 +82,13 @@ app.get(
     console.log("auth call");
     passport.authenticate("google", async (error: Error, user: IUser) => {
       console.log(user);
-      const token = await generateToken(user);
+      // const token = await generateToken(user);
 
       const redirectUrl =
         envConfig.DEVELOPMENT !== "development"
-          ? `${envConfig.CLIENT_URL}?token=${token}`
-          : `http://localhost:3000?token=${token}`;
-      res.setHeader("Set-Cookie", `harriShop=${token}; Path=/;`);
+          ? `${envConfig.CLIENT_URL}?token=${""}`
+          : `http://localhost:3000?token=${""}`;
+      res.setHeader("Set-Cookie", `harriShop=${""}; Path=/;`);
 
       res.redirect(redirectUrl);
     })(req, res, next);
