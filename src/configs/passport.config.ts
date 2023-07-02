@@ -97,6 +97,7 @@ const passportConfig = (passport: PassportStatic) => {
           console.log(newUpdatedUser);
           return cb(null, newUpdatedUser);
         } catch (error) {
+          console.log(error);
           return cb(error, null);
         }
       }
@@ -114,8 +115,9 @@ const passportConfig = (passport: PassportStatic) => {
     _id: any,
     done: (err: any, user?: any) => void
   ) {
-    User.findById(_id)
+    User.findOne({ _id })
       .then((user) => {
+        console.log(user);
         done(null, user);
       })
       .catch((error: Error) => {
