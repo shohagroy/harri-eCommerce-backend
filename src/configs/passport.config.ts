@@ -4,6 +4,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy, Profile } from "passport-google-oauth20";
 import User from "../modules/user/user.interface";
 import envConfig from "./env.config";
+import mongoose from "mongoose";
 
 const passportConfig = (passport: PassportStatic) => {
   passport.use(
@@ -91,8 +92,6 @@ const passportConfig = (passport: PassportStatic) => {
             { new: true }
           );
 
-          console.log("passport config: ", newUpdatedUser);
-
           return cb(null, newUpdatedUser);
         } catch (error) {
           return cb(error, null);
@@ -112,7 +111,7 @@ const passportConfig = (passport: PassportStatic) => {
     _id: any,
     done: (err: any, user?: any) => void
   ) {
-    User.findOne({ _id })
+    User.findById(_id)
       .then((user) => {
         done(null, user);
       })
