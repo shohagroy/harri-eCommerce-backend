@@ -67,8 +67,6 @@ const passportConfig = (passport: PassportStatic) => {
           buyerList: [],
         };
 
-        console.log("passport config: ", googleUser);
-
         try {
           const user = await User.findOne({ email: email });
 
@@ -92,6 +90,8 @@ const passportConfig = (passport: PassportStatic) => {
             updatedUser,
             { new: true }
           );
+
+          console.log("passport config: ", newUpdatedUser);
 
           return cb(null, newUpdatedUser);
         } catch (error) {
