@@ -66,9 +66,7 @@ const paymentRedirectUrl = async (payload: ICheckout) => {
     const apiResponse = await sslcz.init(data);
     // Redirect the user to payment gateway
 
-    console.log(apiResponse);
     const GatewayPageURL = apiResponse.GatewayPageURL;
-    console.log(GatewayPageURL);
 
     return GatewayPageURL;
   } catch (error) {
