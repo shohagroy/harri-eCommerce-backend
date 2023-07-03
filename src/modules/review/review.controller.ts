@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { getProductReviewToDb, postNewReviewToDb } from "./review.service";
 
-export const postProductReview: RequestHandler = async (req, res, next) => {
+const postProductReview: RequestHandler = async (req, res, next) => {
   try {
     const response = await postNewReviewToDb(req.body);
 
@@ -14,7 +14,7 @@ export const postProductReview: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const getProductReviews: RequestHandler = async (req, res, next) => {
+const getProductReviews: RequestHandler = async (req, res, next) => {
   const id = req.params.id;
 
   try {
@@ -28,4 +28,9 @@ export const getProductReviews: RequestHandler = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const reviewControllers = {
+  postProductReview,
+  getProductReviews,
 };
