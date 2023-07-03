@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import { productServices } from "./product.service";
 import catchAsync from "../../shared/catchAsync";
+import pick from "../../shared/pick";
+import { productFilterableFields } from "./product.constants";
+import { paginationFields } from "../../constants/pagination";
+import sendResponse from "../../shared/sendResponse";
+import { IProduct } from "./product.interface";
 
 const postNewProduct = catchAsync(async (req: Request, res: Response) => {
   const product = await productServices.createNewProductToDB(req.body);
@@ -8,13 +13,22 @@ const postNewProduct = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllProducts = catchAsync(async (req: Request, res: Response) => {
-  const query = req.query;
-  const products = await productServices.getAllProductsToDB(query);
+  const filters = pick(req.query, productFilterableFields);
+  const paginationOptions = pick(req.query, paginationFields);
 
-  res.status(200).json({
-    status: "success",
-    data: products.data,
-    count: products.count,
+  const query = req.query;
+  const response = await productServices.getAllProductsToDB(
+    query,
+    filters,
+    paginationOptions
+  );
+
+  sendResponse<IProduct[]>(res, {
+    statusCode: 200,
+    success: true,
+    message: "Products received successfully!",
+    meta: response.meta,
+    data: response.data,
   });
 });
 

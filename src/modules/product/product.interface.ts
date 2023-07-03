@@ -92,3 +92,12 @@ const productSchema: Schema<IProduct> = new Schema<IProduct>(
 const Product: Model<IProduct> = model<IProduct>("Product", productSchema);
 
 export default Product;
+
+export type IProductFilters = {
+  searchTerm?: string;
+  sortBy?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  location?: string;
+  category?: string;
+};
