@@ -1,7 +1,1 @@
-export const productFilterableFields = [
-  "searchTerm",
-  "sortBy",
-  "minPrice",
-  "maxPrice",
-  "category",
-];
+export const productFilterableFields = ["title", "category"];

@@ -1,10 +1,7 @@
-import { SortOrder, Types } from "mongoose";
+import { Types } from "mongoose";
 import deleteImage from "../../utils/deleteImage";
 import uploadImages from "../../utils/uploadImages";
-import Product, { IProduct, IProductFilters } from "./product.interface";
-import { IPaginationOptions } from "../../interfaces/pagination";
-import { paginationHelpers } from "../../helpers/paginationHelper";
-import { productFilterableFields } from "./product.constants";
+import Product, { IProduct } from "./product.interface";
 
 const createNewProductToDB = async (data: IProduct) => {
   const images = await uploadImages(data.images);
@@ -13,75 +10,55 @@ const createNewProductToDB = async (data: IProduct) => {
   return response;
 };
 
-const getAllProductsToDB = async (
-  query: any,
-  filters: IProductFilters,
-  paginationOptions: IPaginationOptions
-) => {
-  // const { search, sort, searchByCategory } = query;
+const getAllProductsToDB = async (query: any) => {
+  const { search, skip, sort, searchByCategory } = query;
 
-  const { searchTerm, maxPrice, minPrice, sortBy, ...filtersData } = filters;
+  const searByProductName = search === "undefined" ? "" : search.toLowerCase();
 
-  const { page, limit, skip, sortOrder } =
-    paginationHelpers.calculatePagination(paginationOptions);
-
-  const andConditions = [];
-
-  if (searchTerm) {
-    andConditions.push({
-      $or: productFilterableFields.map((field) => ({
-        [field]: {
-          $regex: searchTerm,
-          $options: "i",
-        },
-      })),
-    });
-  }
-
-  if (maxPrice) {
-    andConditions.push({
-      price: {
-        $lte: maxPrice,
+  const result = await Product.aggregate([
+    {
+      $facet: {
+        count: [
+          {
+            $group: {
+              _id: null,
+              count: { $sum: 1 },
+            },
+          },
+        ],
+        data: [
+          {
+            $match: {
+              $and: [
+                searchByCategory
+                  ? {
+                      "category.id": new Types.ObjectId(searchByCategory),
+                    }
+                  : { title: { $regex: searByProductName } },
+              ],
+            },
+          },
+          {
+            $sort: { price: sort === "high" ? -1 : 1 },
+          },
+          {
+            $skip: parseInt(skip),
+          },
+          {
+            $limit: 10,
+          },
+        ],
       },
-    });
-  }
-
-  if (minPrice) {
-    andConditions.push({
-      price: {
-        $gte: minPrice,
-      },
-    });
-  }
-
-  if (Object.keys(filtersData).length) {
-    andConditions.push({
-      $and: Object.entries(filtersData).map(([field, value]) => ({
-        [field]: value,
-      })),
-    });
-  }
-
-  const sortConditions: { [key: string]: SortOrder } = {};
-
-  const whereConditions =
-    andConditions.length > 0 ? { $and: andConditions } : {};
-
-  const result = await Product.find(whereConditions)
-    .sort(sortConditions)
-    .skip(skip)
-    .limit(limit);
-
-  const total = await Product.countDocuments(whereConditions);
-
-  return {
-    meta: {
-      page,
-      limit,
-      total,
     },
-    data: result,
-  };
+    {
+      $project: {
+        count: { $arrayElemAt: ["$count.count", 0] },
+        data: 1,
+      },
+    },
+  ]);
+
+  return result[0];
 };
 
 const getProductToDB = async (query: string) => {

@@ -5,7 +5,6 @@ import pick from "../../shared/pick";
 import { productFilterableFields } from "./product.constants";
 import { paginationFields } from "../../constants/pagination";
 import sendResponse from "../../shared/sendResponse";
-import { IProduct } from "./product.interface";
 
 const postNewProduct = catchAsync(async (req: Request, res: Response) => {
   const product = await productServices.createNewProductToDB(req.body);
@@ -13,22 +12,14 @@ const postNewProduct = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllProducts = catchAsync(async (req: Request, res: Response) => {
-  const filters = pick(req.query, productFilterableFields);
-  const paginationOptions = pick(req.query, paginationFields);
-
   const query = req.query;
-  const response = await productServices.getAllProductsToDB(
-    query,
-    filters,
-    paginationOptions
-  );
+  const products = await productServices.getAllProductsToDB(query);
 
-  sendResponse<IProduct[]>(res, {
+  sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Products received successfully!",
-    meta: response.meta,
-    data: response.data,
+    message: "Products Recvied successfully!",
+    data: products,
   });
 });
 
