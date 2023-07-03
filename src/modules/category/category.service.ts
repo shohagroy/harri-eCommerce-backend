@@ -3,14 +3,14 @@ import deleteImage from "../../utils/deleteImage";
 import uploadImages from "../../utils/uploadImages";
 import Category, { ICategory } from "./category.interface";
 
-export const createNewCategoryToDB = async (data: ICategory) => {
+const createNewCategoryToDB = async (data: ICategory) => {
   const iconData = [data?.icon];
   const icon = await uploadImages(iconData);
   const response = await Category.create({ ...data, icon: icon });
   return response;
 };
 
-export const getAllCategorysToDB = async (query: any) => {
+const getAllCategorysToDB = async (query: any) => {
   const { search, skip } = query;
 
   const result = await Category.aggregate([
@@ -51,7 +51,7 @@ export const getAllCategorysToDB = async (query: any) => {
   return result[0];
 };
 
-export const deleteCaregoryByIdToDB = async (id: string) => {
+const deleteCaregoryByIdToDB = async (id: string) => {
   const result = await Category.aggregate([
     {
       $match: {
@@ -75,7 +75,7 @@ export const deleteCaregoryByIdToDB = async (id: string) => {
   }
 };
 
-export const updateCaregoryByIdToDB = async (data: ICategory) => {
+const updateCaregoryByIdToDB = async (data: ICategory) => {
   const { name, icon, publish, _id } = data;
 
   if (icon.length > 1) {
@@ -123,4 +123,11 @@ export const updateCaregoryByIdToDB = async (data: ICategory) => {
 
     return updatedCategory;
   }
+};
+
+export const categoryServices = {
+  createNewCategoryToDB,
+  getAllCategorysToDB,
+  deleteCaregoryByIdToDB,
+  updateCaregoryByIdToDB,
 };

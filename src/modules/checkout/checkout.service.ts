@@ -2,7 +2,7 @@ import paymentRedirectUrl from "../../utils/sslcommerz";
 import Product, { IProduct } from "../product/product.interface";
 import CheckoutOrder from "./checkout.interface";
 
-export const cheateNewCheckoutService = async (payload: any) => {
+const cheateNewCheckoutService = async (payload: any) => {
   const { productInfo, userInfo, productId } = payload;
 
   const checkoutProduct: IProduct[] = await Product.find({ _id: productId });
@@ -33,4 +33,8 @@ export const cheateNewCheckoutService = async (payload: any) => {
     const paymentUrl = await paymentRedirectUrl(newOrder);
     return paymentUrl;
   }
+};
+
+export const checkoutService = {
+  cheateNewCheckoutService,
 };

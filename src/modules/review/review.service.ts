@@ -1,6 +1,6 @@
 import Review, { IReview } from "./review.interface";
 
-export const postNewReviewToDb = async (payload: IReview) => {
+const postNewReviewToDb = async (payload: IReview) => {
   const result = await Review.create(payload);
 
   if (result._id) {
@@ -10,7 +10,12 @@ export const postNewReviewToDb = async (payload: IReview) => {
   }
 };
 
-export const getProductReviewToDb = async (id: string) => {
+const getProductReviewToDb = async (id: string) => {
   const result = await Review.find({ productId: id });
   return result;
+};
+
+export const reviewServices = {
+  postNewReviewToDb,
+  getProductReviewToDb,
 };

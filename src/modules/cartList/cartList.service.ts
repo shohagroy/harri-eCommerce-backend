@@ -1,10 +1,7 @@
 import User from "../user/user.interface";
 import CartListProduct, { ICartProduct } from "./cartList.interface";
 
-export const createUserCartListProductToDB = async (
-  data: ICartProduct,
-  user: any
-) => {
+const createUserCartListProductToDB = async (data: ICartProduct, user: any) => {
   const { productId } = data;
 
   const product = await CartListProduct.findOne({ productId: productId });
@@ -35,7 +32,7 @@ export const createUserCartListProductToDB = async (
   }
 };
 
-export const cartListProductQuentatyUpdated = async (
+const cartListProductQuentatyUpdated = async (
   _id: string,
   quantity: number
 ) => {
@@ -46,7 +43,13 @@ export const cartListProductQuentatyUpdated = async (
   return cartItem;
 };
 
-export const getAallUserCartListToDB = async (user: any) => {
+const getAallUserCartListToDB = async (user: any) => {
   const userCartLists = await CartListProduct.find({ userId: user?._id });
   return userCartLists;
+};
+
+export const cartListService = {
+  createUserCartListProductToDB,
+  getAallUserCartListToDB,
+  cartListProductQuentatyUpdated,
 };

@@ -1,69 +1,47 @@
-import { RequestHandler } from "express";
-import {
-  createNewCategoryToDB,
-  deleteCaregoryByIdToDB,
-  getAllCategorysToDB,
-  updateCaregoryByIdToDB,
-} from "./category.service";
+import { Request, Response } from "express";
+import { categoryServices } from "./category.service";
+import catchAsync from "../../shared/catchAsync";
 
-const postNewCategory: RequestHandler = async (req, res, next) => {
-  try {
-    const category = await createNewCategoryToDB(req.body);
+const postNewCategory = catchAsync(async (req: Request, res: Response) => {
+  const category = await categoryServices.createNewCategoryToDB(req.body);
+  res.status(201).json({
+    status: "success",
+    message: "Category Create Successfully!",
+    data: category,
+  });
+});
 
-    res.status(201).json({
-      status: "success",
-      message: "Category Create Successfully!",
-      data: category,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-const getAllCategorys: RequestHandler = async (req, res, next) => {
+const getAllCategorys = catchAsync(async (req: Request, res: Response) => {
   const query = req.query;
+  const categorys = await categoryServices.getAllCategorysToDB(query);
 
-  try {
-    const categorys = await getAllCategorysToDB(query);
+  res.status(200).json({
+    status: "success",
+    message: "Get all Category Successfully!",
+    data: categorys,
+  });
+});
 
+const deleteCategoryById = catchAsync(async (req: Request, res: Response) => {
+  const response = await categoryServices.deleteCaregoryByIdToDB(req.params.id);
+
+  res.status(200).json({
+    status: "success",
+    message: "Category Delete Successfully!",
+    data: response,
+  });
+});
+
+const updateCategoryById = catchAsync(async (req: Request, res: Response) => {
+  const response = await categoryServices.updateCaregoryByIdToDB(req.body);
+
+  if (response?._id) {
     res.status(200).json({
       status: "success",
-      message: "Get all Category Successfully!",
-      data: categorys,
+      message: "Category Update Successfully!",
     });
-  } catch (error) {
-    next(error);
   }
-};
-
-const deleteCategoryById: RequestHandler = async (req, res, next) => {
-  try {
-    const response = await deleteCaregoryByIdToDB(req.params.id);
-
-    res.status(200).json({
-      status: "success",
-      message: "Category Delete Successfully!",
-      data: response,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-const updateCategoryById: RequestHandler = async (req, res, next) => {
-  try {
-    const response = await updateCaregoryByIdToDB(req.body);
-
-    if (response?._id) {
-      res.status(200).json({
-        status: "success",
-        message: "Category Update Successfully!",
-      });
-    }
-  } catch (error) {
-    next(error);
-  }
-};
+});
 
 export const categoryControllers = {
   postNewCategory,

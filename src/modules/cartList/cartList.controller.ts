@@ -1,52 +1,41 @@
-import { RequestHandler } from "express";
-import {
-  cartListProductQuentatyUpdated,
-  createUserCartListProductToDB,
-  getAallUserCartListToDB,
-} from "./cartList.service";
+import { cartListService } from "./cartList.service";
+import catchAsync from "../../shared/catchAsync";
+import { Request, Response } from "express";
 
-const postUserCartList: RequestHandler = async (req, res, next) => {
-  try {
-    const response = await createUserCartListProductToDB(req.body, req.user);
+const postUserCartList = catchAsync(async (req: Request, res: Response) => {
+  const response = await cartListService.createUserCartListProductToDB(
+    req.body,
+    req.user
+  );
 
-    res.status(201).json({
-      status: "success",
-      message: response,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  res.status(201).json({
+    status: "success",
+    message: response,
+  });
+});
 
-const updateCartQuantaty: RequestHandler = async (req, res, next) => {
+const updateCartQuantaty = catchAsync(async (req: Request, res: Response) => {
   const { _id, quantity } = req.body;
+  const response = await cartListService.cartListProductQuentatyUpdated(
+    _id,
+    quantity
+  );
 
-  // console.log(req.body);
-  try {
-    const response = await cartListProductQuentatyUpdated(_id, quantity);
+  res.status(201).json({
+    status: "success",
+    message: response,
+  });
+});
 
-    res.status(201).json({
-      status: "success",
-      message: response,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+const getAllUserCartLists = catchAsync(async (req: Request, res: Response) => {
+  const response = await cartListService.getAallUserCartListToDB(req?.user);
 
-const getAllUserCartLists: RequestHandler = async (req, res, next) => {
-  try {
-    const response = await getAallUserCartListToDB(req?.user);
-
-    res.status(201).json({
-      status: "success",
-      message: "user cart list get successfully!",
-      data: response,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  res.status(201).json({
+    status: "success",
+    message: "user cart list get successfully!",
+    data: response,
+  });
+});
 
 export const cartListControllers = {
   postUserCartList,

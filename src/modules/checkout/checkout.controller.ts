@@ -1,19 +1,20 @@
-import { RequestHandler } from "express";
-import { getAallUserCartListToDB } from "../cartList/cartList.service";
-import { getProductToDB } from "../product/product.service";
-import { cheateNewCheckoutService } from "./checkout.service";
+import { Request, Response } from "express";
 import CheckoutOrder from "./checkout.interface";
 import envConfig from "../../configs/env.config";
+import { cartListService } from "../cartList/cartList.service";
+import { checkoutService } from "./checkout.service";
+import catchAsync from "../../shared/catchAsync";
+import { productServices } from "../product/product.service";
 
-const getAllCheckoutProducts: RequestHandler = async (req, res, next) => {
-  const { id } = req.params;
-  let response;
+const getAllCheckoutProducts = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    let response;
 
-  try {
     if (id === "allCart") {
-      response = await getAallUserCartListToDB(req.user);
+      response = await cartListService.getAallUserCartListToDB(req.user);
     } else {
-      const checkoutProduct = await getProductToDB(id);
+      const checkoutProduct = await productServices.getProductToDB(id);
       checkoutProduct?.quantity ? (checkoutProduct.quantity = 1) : null;
 
       response = [checkoutProduct];
@@ -24,72 +25,58 @@ const getAllCheckoutProducts: RequestHandler = async (req, res, next) => {
       message: "checkout products received successfully",
       data: response,
     });
-  } catch (error) {
-    next(error);
   }
-};
+);
 
-const createNewCheckout: RequestHandler = async (req, res, next) => {
-  try {
-    const response = await cheateNewCheckoutService(req.body);
+const createNewCheckout = catchAsync(async (req: Request, res: Response) => {
+  const response = await checkoutService.cheateNewCheckoutService(req.body);
 
-    res.status(200).json({
-      status: "success",
-      message: "checkout payment url received successfully",
-      data: response,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  res.status(200).json({
+    status: "success",
+    message: "checkout payment url received successfully",
+    data: response,
+  });
+});
 
-const paymentSuccess: RequestHandler = async (req, res, next) => {
-  try {
-    const { tran_id } = req.query;
+const paymentSuccess = catchAsync(async (req: Request, res: Response) => {
+  const { tran_id } = req.query;
 
-    const updatedData = {
-      paymentMethod: "SLLCOMMERCE",
-      status: true,
-    };
-    const result = await CheckoutOrder.findByIdAndUpdate(
-      { _id: tran_id },
-      updatedData,
-      {
-        new: true,
-      }
-    );
-
-    const redirectUrl =
-      envConfig.DEVELOPMENT === "production"
-        ? `${envConfig.CLIENT_URL}?transaction_id=${result?._id}`
-        : `http://localhost:3000/?transaction_id=${result?._id}`;
-
-    if (result) {
-      res.redirect(redirectUrl);
+  const updatedData = {
+    paymentMethod: "SLLCOMMERCE",
+    status: true,
+  };
+  const result = await CheckoutOrder.findByIdAndUpdate(
+    { _id: tran_id },
+    updatedData,
+    {
+      new: true,
     }
-  } catch (error) {
-    next(error);
+  );
+
+  const redirectUrl =
+    envConfig.DEVELOPMENT === "production"
+      ? `${envConfig.CLIENT_URL}?transaction_id=${result?._id}`
+      : `http://localhost:3000/?transaction_id=${result?._id}`;
+
+  if (result) {
+    res.redirect(redirectUrl);
   }
-};
+});
 
-const paymentFail: RequestHandler = async (req, res, next) => {
-  try {
-    const { tran_id } = req.query;
+const paymentFail = catchAsync(async (req: Request, res: Response) => {
+  const { tran_id } = req.query;
 
-    const result = await CheckoutOrder.findByIdAndDelete(tran_id);
+  const result = await CheckoutOrder.findByIdAndDelete(tran_id);
 
-    const redirectUrl =
-      envConfig.DEVELOPMENT === "production"
-        ? `${envConfig.CLIENT_URL}?transaction_id=${result?._id}`
-        : `http://localhost:3000/?transaction=failure`;
+  const redirectUrl =
+    envConfig.DEVELOPMENT === "production"
+      ? `${envConfig.CLIENT_URL}?transaction_id=${result?._id}`
+      : `http://localhost:3000/?transaction=failure`;
 
-    if (result) {
-      res.redirect(redirectUrl);
-    }
-  } catch (error) {
-    next(error);
+  if (result) {
+    res.redirect(redirectUrl);
   }
-};
+});
 
 export const checkoutControllers = {
   getAllCheckoutProducts,

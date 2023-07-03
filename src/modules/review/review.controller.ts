@@ -1,34 +1,26 @@
-import { RequestHandler } from "express";
-import { getProductReviewToDb, postNewReviewToDb } from "./review.service";
+import { Request, Response } from "express";
+import { reviewServices } from "./review.service";
+import catchAsync from "../../shared/catchAsync";
 
-const postProductReview: RequestHandler = async (req, res, next) => {
-  try {
-    const response = await postNewReviewToDb(req.body);
+const postProductReview = catchAsync(async (req: Request, res: Response) => {
+  const response = await reviewServices.postNewReviewToDb(req.body);
 
-    res.status(201).json({
-      status: "success",
-      message: response,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  res.status(201).json({
+    status: "success",
+    message: response,
+  });
+});
 
-const getProductReviews: RequestHandler = async (req, res, next) => {
+const getProductReviews = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
+  const response = await reviewServices.getProductReviewToDb(id);
 
-  try {
-    const response = await getProductReviewToDb(id);
-
-    res.status(200).json({
-      status: "success",
-      message: "Product reviews received successfully!",
-      data: response,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  res.status(200).json({
+    status: "success",
+    message: "Product reviews received successfully!",
+    data: response,
+  });
+});
 
 export const reviewControllers = {
   postProductReview,

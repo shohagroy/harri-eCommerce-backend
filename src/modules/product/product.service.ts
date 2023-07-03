@@ -3,14 +3,14 @@ import deleteImage from "../../utils/deleteImage";
 import uploadImages from "../../utils/uploadImages";
 import Product, { IProduct } from "./product.interface";
 
-export const createNewProductToDB = async (data: IProduct) => {
+const createNewProductToDB = async (data: IProduct) => {
   const images = await uploadImages(data.images);
 
   const response = await Product.create({ ...data, images: images });
   return response;
 };
 
-export const getAllProductsToDB = async (query: any) => {
+const getAllProductsToDB = async (query: any) => {
   const { search, skip, sort, searchByCategory } = query;
 
   const searByProductName = search === "undefined" ? "" : search.toLowerCase();
@@ -61,12 +61,12 @@ export const getAllProductsToDB = async (query: any) => {
   return result[0];
 };
 
-export const getProductToDB = async (query: string) => {
+const getProductToDB = async (query: string) => {
   const response = await Product.findById({ _id: query });
   return response;
 };
 
-export const deleteProductByIdToDB = async (id: string) => {
+const deleteProductByIdToDB = async (id: string) => {
   const result = await Product.aggregate([
     {
       $match: {
@@ -100,7 +100,7 @@ export const deleteProductByIdToDB = async (id: string) => {
   return response;
 };
 
-export const updateProductByIdToDB = async (data: any) => {
+const updateProductByIdToDB = async (data: any) => {
   const { images, _id } = data;
   if (images[0].url) {
     const updatedProduct = await Product.findByIdAndUpdate(
@@ -149,4 +149,12 @@ export const updateProductByIdToDB = async (data: any) => {
 
     return updatedProduct;
   }
+};
+
+export const productServices = {
+  createNewProductToDB,
+  getAllProductsToDB,
+  getProductToDB,
+  deleteProductByIdToDB,
+  updateProductByIdToDB,
 };

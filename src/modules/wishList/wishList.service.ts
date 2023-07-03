@@ -1,10 +1,7 @@
 import User from "../user/user.interface";
 import WishListProduct, { IWIshList } from "./wishList.interface";
 
-export const createUserWishListProductToDB = async (
-  data: IWIshList,
-  user: any
-) => {
+const createUserWishListProductToDB = async (data: IWIshList, user: any) => {
   const { productId } = data;
 
   const product = await WishListProduct.findOne({ productId: productId });
@@ -35,8 +32,13 @@ export const createUserWishListProductToDB = async (
   }
 };
 
-export const getAallUserWishListToDB = async (user: any) => {
+const getAallUserWishListToDB = async (user: any) => {
   const userWishLists = await WishListProduct.find({ userId: user?._id });
 
   return userWishLists;
+};
+
+export const wishListService = {
+  createUserWishListProductToDB,
+  getAallUserWishListToDB,
 };

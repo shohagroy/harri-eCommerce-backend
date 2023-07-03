@@ -1,35 +1,28 @@
-import { RequestHandler } from "express";
-import {
-  createUserWishListProductToDB,
-  getAallUserWishListToDB,
-} from "./wishList.service";
+import { Request, Response } from "express";
+import { wishListService } from "./wishList.service";
+import catchAsync from "../../shared/catchAsync";
 
-const postUserWishList: RequestHandler = async (req, res, next) => {
-  try {
-    const response = await createUserWishListProductToDB(req.body, req.user);
+const postUserWishList = catchAsync(async (req: Request, res: Response) => {
+  const response = await wishListService.createUserWishListProductToDB(
+    req.body,
+    req.user
+  );
 
-    res.status(201).json({
-      status: "success",
-      message: response,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  res.status(201).json({
+    status: "success",
+    message: response,
+  });
+});
 
-const getAllUserWishLists: RequestHandler = async (req, res, next) => {
-  try {
-    const response = await getAallUserWishListToDB(req?.user);
+const getAllUserWishLists = catchAsync(async (req: Request, res: Response) => {
+  const response = await wishListService.getAallUserWishListToDB(req?.user);
 
-    res.status(201).json({
-      status: "success",
-      message: "user wish list get successfully!",
-      data: response,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  res.status(201).json({
+    status: "success",
+    message: "user wish list get successfully!",
+    data: response,
+  });
+});
 
 export const wishListControllers = {
   postUserWishList,

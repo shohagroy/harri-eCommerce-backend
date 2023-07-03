@@ -3,7 +3,7 @@ import User, { IUser, InitialUser } from "./user.interface";
 import bcrypt from "bcrypt";
 import uploadImages from "../../utils/uploadImages";
 
-export const createNewUserToDb = async (userInfo: InitialUser) => {
+const createNewUserToDb = async (userInfo: InitialUser) => {
   const { email, password, confirmPassword } = userInfo;
 
   if (password !== confirmPassword) {
@@ -39,13 +39,13 @@ export const createNewUserToDb = async (userInfo: InitialUser) => {
   }
 };
 
-export const fintLoginUserToDb = async (id: any) => {
+const fintLoginUserToDb = async (id: any) => {
   const response = await User.findById(id).select("-password");
 
   return response;
 };
 
-export const updateUserInfoToDb = async (_id: string, payload: IUser) => {
+const updateUserInfoToDb = async (_id: string, payload: IUser) => {
   const imageData = [payload?.avatar];
   const avatar = await uploadImages(imageData);
 
@@ -56,8 +56,15 @@ export const updateUserInfoToDb = async (_id: string, payload: IUser) => {
   return result;
 };
 
-export const getAllUserToDb = async () => {
+const getAllUserToDb = async () => {
   const response = await User.find();
 
   return response;
+};
+
+export const userServices = {
+  createNewUserToDb,
+  fintLoginUserToDb,
+  updateUserInfoToDb,
+  getAllUserToDb,
 };
