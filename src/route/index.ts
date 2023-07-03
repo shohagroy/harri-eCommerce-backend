@@ -1,6 +1,7 @@
 import express from "express";
 import { userRoutes } from "../modules/user/user.route";
 import { cartListRoutes } from "../modules/cartList/cartList.route";
+import { categoryRoutes } from "../modules/category/category.route";
 
 const router = express.Router();
 
@@ -10,13 +11,13 @@ const moduleRoutes = [
     route: userRoutes,
   },
   {
-    path: "/carts",
+    path: "/cart-lists",
     route: cartListRoutes,
   },
-  //   {
-  //     path: "/academic-faculties",
-  //     route: AcademicFacultyRoutes,
-  //   },
+  {
+    path: "/categorys",
+    route: categoryRoutes,
+  },
   //   {
   //     path: "/academic-departments",
   //     route: AcademicDepartmentRoutes,
@@ -28,13 +29,6 @@ const moduleRoutes = [
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
-
-// // category route
-// router.route("/categorys").get(getAllCategorys).post(postNewCategory);
-// router
-//   .route("/categorys/:id")
-//   .delete(deleteCategoryById)
-//   .put(updateCategoryById);
 
 // // product routes
 // router.route("/products").post(postNewProduct).get(getAllProducts);

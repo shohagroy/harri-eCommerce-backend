@@ -6,7 +6,7 @@ import {
   updateCaregoryByIdToDB,
 } from "./category.service";
 
-export const postNewCategory: RequestHandler = async (req, res, next) => {
+const postNewCategory: RequestHandler = async (req, res, next) => {
   try {
     const category = await createNewCategoryToDB(req.body);
 
@@ -20,7 +20,7 @@ export const postNewCategory: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const getAllCategorys: RequestHandler = async (req, res, next) => {
+const getAllCategorys: RequestHandler = async (req, res, next) => {
   const query = req.query;
 
   try {
@@ -36,7 +36,7 @@ export const getAllCategorys: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const deleteCategoryById: RequestHandler = async (req, res, next) => {
+const deleteCategoryById: RequestHandler = async (req, res, next) => {
   try {
     const response = await deleteCaregoryByIdToDB(req.params.id);
 
@@ -50,7 +50,7 @@ export const deleteCategoryById: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const updateCategoryById: RequestHandler = async (req, res, next) => {
+const updateCategoryById: RequestHandler = async (req, res, next) => {
   try {
     const response = await updateCaregoryByIdToDB(req.body);
 
@@ -63,4 +63,11 @@ export const updateCategoryById: RequestHandler = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const categoryControllers = {
+  postNewCategory,
+  getAllCategorys,
+  deleteCategoryById,
+  updateCategoryById,
 };
