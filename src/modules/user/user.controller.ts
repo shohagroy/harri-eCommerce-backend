@@ -10,7 +10,7 @@ import {
 import generateToken from "../../utils/generateToken";
 import googleConfig from "../../configs/google.config";
 
-export const createNewUser: RequestHandler = async (req, res, next) => {
+const createNewUser: RequestHandler = async (req, res, next) => {
   try {
     const user = await createNewUserToDb(req.body);
     const token = await generateToken(user);
@@ -28,7 +28,7 @@ export const createNewUser: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const userLogin: RequestHandler = (req, res, next) => {
+const userLogin: RequestHandler = (req, res, next) => {
   passport.authenticate(
     "local",
     (error: Error, user: IUser, info: Function) => {
@@ -64,7 +64,7 @@ export const userLogin: RequestHandler = (req, res, next) => {
   )(req, res, next);
 };
 
-export const findLoginUser: RequestHandler = async (req, res, next) => {
+const findLoginUser: RequestHandler = async (req, res, next) => {
   const user: any = req.user;
 
   try {
@@ -79,7 +79,7 @@ export const findLoginUser: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const userLoginWithGoogle: RequestHandler = async (req, res, next) => {
+const userLoginWithGoogle: RequestHandler = async (req, res, next) => {
   const { clientID, callbackURL } = googleConfig;
   const authenticationURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientID}&redirect_uri=${callbackURL}&response_type=code&scope=email%20profile`;
 
@@ -90,7 +90,7 @@ export const userLoginWithGoogle: RequestHandler = async (req, res, next) => {
   });
 };
 
-export const userLogout: RequestHandler = async (req, res, next) => {
+const userLogout: RequestHandler = async (req, res, next) => {
   console.log("user logged out");
   res.status(200).json({
     status: "success",
@@ -98,7 +98,7 @@ export const userLogout: RequestHandler = async (req, res, next) => {
   });
 };
 
-export const updateUserInfo: RequestHandler = async (req, res) => {
+const updateUserInfo: RequestHandler = async (req, res) => {
   const user: any = req.user;
   const payload: IUser = req.body;
 
@@ -110,7 +110,7 @@ export const updateUserInfo: RequestHandler = async (req, res) => {
   });
 };
 
-export const getAllUsers: RequestHandler = async (req, res) => {
+const getAllUsers: RequestHandler = async (req, res) => {
   const response = await getAllUserToDb();
 
   res.status(200).json({
@@ -118,4 +118,14 @@ export const getAllUsers: RequestHandler = async (req, res) => {
     message: "Users recvied Successfully!",
     data: response,
   });
+};
+
+export const userControll = {
+  createNewUser,
+  userLogin,
+  userLoginWithGoogle,
+  userLogout,
+  updateUserInfo,
+  getAllUsers,
+  findLoginUser,
 };

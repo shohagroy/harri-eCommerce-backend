@@ -2,7 +2,7 @@ import bodyParser from "body-parser";
 import { Request, Response, NextFunction } from "express";
 import globalErrorHandler from "./middlewares/globalErrorHandelar";
 import cookieParser from "cookie-parser";
-import router from "./route/route";
+import router from "./route";
 import passport from "passport";
 import passportConfig from "./configs/passport.config";
 import session from "express-session";
