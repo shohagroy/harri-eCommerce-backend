@@ -5,11 +5,7 @@ import { cheateNewCheckoutService } from "./checkout.service";
 import CheckoutOrder from "./checkout.interface";
 import envConfig from "../../configs/env.config";
 
-export const getAllCheckoutProducts: RequestHandler = async (
-  req,
-  res,
-  next
-) => {
+const getAllCheckoutProducts: RequestHandler = async (req, res, next) => {
   const { id } = req.params;
   let response;
 
@@ -33,7 +29,7 @@ export const getAllCheckoutProducts: RequestHandler = async (
   }
 };
 
-export const createNewCheckout: RequestHandler = async (req, res, next) => {
+const createNewCheckout: RequestHandler = async (req, res, next) => {
   try {
     const response = await cheateNewCheckoutService(req.body);
 
@@ -47,7 +43,7 @@ export const createNewCheckout: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const paymentSuccess: RequestHandler = async (req, res, next) => {
+const paymentSuccess: RequestHandler = async (req, res, next) => {
   try {
     const { tran_id } = req.query;
 
@@ -76,7 +72,7 @@ export const paymentSuccess: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const paymentFail: RequestHandler = async (req, res, next) => {
+const paymentFail: RequestHandler = async (req, res, next) => {
   try {
     const { tran_id } = req.query;
 
@@ -93,4 +89,11 @@ export const paymentFail: RequestHandler = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const checkoutControllers = {
+  getAllCheckoutProducts,
+  createNewCheckout,
+  paymentSuccess,
+  paymentFail,
 };

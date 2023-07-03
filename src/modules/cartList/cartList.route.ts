@@ -5,7 +5,7 @@ import { cartListControllers } from "./cartList.controller";
 const router = express.Router();
 
 router
-  .route("/cart-lists")
+  .route("/")
   .post(verifiedLoginUser, cartListControllers.postUserCartList)
   .get(verifiedLoginUser, cartListControllers.getAllUserCartLists)
   .patch(verifiedLoginUser, cartListControllers.updateCartQuantaty);

@@ -5,11 +5,11 @@ const router = express.Router();
 
 // category route
 router
-  .route("/categorys")
+  .route("/")
   .get(categoryControllers.getAllCategorys)
   .post(categoryControllers.postNewCategory);
 router
-  .route("/categorys/:id")
+  .route("/:id")
   .delete(categoryControllers.deleteCategoryById)
   .put(categoryControllers.updateCategoryById);
 

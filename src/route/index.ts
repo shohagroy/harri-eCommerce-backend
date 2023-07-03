@@ -2,6 +2,7 @@ import express from "express";
 import { userRoutes } from "../modules/user/user.route";
 import { cartListRoutes } from "../modules/cartList/cartList.route";
 import { categoryRoutes } from "../modules/category/category.route";
+import { checkoutRoutes } from "../modules/checkout/checkout.route";
 
 const router = express.Router();
 
@@ -18,14 +19,10 @@ const moduleRoutes = [
     path: "/categorys",
     route: categoryRoutes,
   },
-  //   {
-  //     path: "/academic-departments",
-  //     route: AcademicDepartmentRoutes,
-  //   },
-  //   {
-  //     path: "/students",
-  //     route: StudentRoutes,
-  //   },
+  {
+    path: "/checkout",
+    route: checkoutRoutes,
+  },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
@@ -68,10 +65,6 @@ moduleRoutes.forEach((route) => router.use(route.path, route.route));
 // // user information route
 // router.route("/product-reviews").post(verifiedLoginUser, postProductReview);
 // router.route("/product-reviews/:id").get(verifiedLoginUser, getProductReviews);
-
-// // user information route
-// router.route("/checkout").post(verifiedLoginUser, createNewCheckout);
-// router.route("/checkout/:id").get(verifiedLoginUser, getAllCheckoutProducts);
 
 // router.route("/payment/success").post(paymentSuccess);
 // router.route("/payment/fail").post(paymentFail);
