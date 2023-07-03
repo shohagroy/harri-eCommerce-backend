@@ -1,13 +1,18 @@
 import express from "express";
 import verifiedLoginUser from "../../middlewares/verifyTokenUser";
 import { productControllers } from "./product.controller";
+import authorization from "../../middlewares/authorization";
 
 const router = express.Router();
 
 // product routes
 router
   .route("/")
-  .post(verifiedLoginUser, productControllers.postNewProduct)
+  .post(
+    verifiedLoginUser,
+    authorization("admin"),
+    productControllers.postNewProduct
+  )
   .get(productControllers.getAllProducts);
 router
   .route("/:id")

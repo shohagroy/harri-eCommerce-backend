@@ -1,13 +1,21 @@
-// module.exports = (...role) => {
-//   return (req, res, next) => {
-//     const userRole = req.user.role;
-//     if (!role.includes(userRole)) {
-//       return res.status(403).json({
-//         status: "fail",
-//         error: "You are not authorized to access this",
-//       });
-//     }
+import { Request, Response, NextFunction } from "express";
+import ApiError from "../errors/ApiError";
+import { IUser } from "../modules/user/user.interface";
 
-//     next();
-//   };
-// };
+const authorization =
+  (...requiredRoles: string[]) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user as IUser;
+
+    try {
+      if (requiredRoles.length && !requiredRoles.includes(user.role)) {
+        throw new ApiError(400, "You are not authorized for this role!");
+      }
+
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };
+
+export default authorization;
