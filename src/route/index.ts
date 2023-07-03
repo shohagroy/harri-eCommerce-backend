@@ -1,50 +1,6 @@
 import express from "express";
 import { userRoutes } from "../modules/user/user.route";
-// import verifiedLoginUser from "../middlewares/verifyTokenUser";
-// import {
-//   getAllUserCartLists,
-//   postUserCartList,
-//   updateCartQuantaty,
-// } from "../modules/cartList/cartList.controller";
-// import {
-//   deleteCategoryById,
-//   getAllCategorys,
-//   postNewCategory,
-//   updateCategoryById,
-// } from "../modules/category/category.controller";
-
-// import {
-//   deleteProductById,
-//   getAllProducts,
-//   getSingleProduct,
-//   postNewProduct,
-//   updateProductById,
-// } from "../modules/product/product.controller";
-
-// import {
-//   createNewUser,
-//   findLoginUser,
-//   getAllUsers,
-//   updateUserInfo,
-//   userLogin,
-//   userLoginWithGoogle,
-//   userLogout,
-// } from "../modules/user/user.controller";
-
-// import {
-//   getAllUserWishLists,
-//   postUserWishList,
-// } from "../modules/wishList/wishList.controller";
-// import {
-//   getProductReviews,
-//   postProductReview,
-// } from "../modules/review/review.controller";
-// import {
-//   createNewCheckout,
-//   getAllCheckoutProducts,
-//   paymentFail,
-//   paymentSuccess,
-// } from "../modules/checkout/checkout.controller";
+import { cartListRoutes } from "../modules/cartList/cartList.route";
 
 const router = express.Router();
 
@@ -53,10 +9,10 @@ const moduleRoutes = [
     path: "/users",
     route: userRoutes,
   },
-  //   {
-  //     path: "/academic-semesters",
-  //     route: AcademicSemesterRoutes,
-  //   },
+  {
+    path: "/carts",
+    route: cartListRoutes,
+  },
   //   {
   //     path: "/academic-faculties",
   //     route: AcademicFacultyRoutes,

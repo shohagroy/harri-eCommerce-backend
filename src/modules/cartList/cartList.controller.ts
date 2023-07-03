@@ -5,7 +5,7 @@ import {
   getAallUserCartListToDB,
 } from "./cartList.service";
 
-export const postUserCartList: RequestHandler = async (req, res, next) => {
+const postUserCartList: RequestHandler = async (req, res, next) => {
   try {
     const response = await createUserCartListProductToDB(req.body, req.user);
 
@@ -18,7 +18,7 @@ export const postUserCartList: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const updateCartQuantaty: RequestHandler = async (req, res, next) => {
+const updateCartQuantaty: RequestHandler = async (req, res, next) => {
   const { _id, quantity } = req.body;
 
   // console.log(req.body);
@@ -34,7 +34,7 @@ export const updateCartQuantaty: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const getAllUserCartLists: RequestHandler = async (req, res, next) => {
+const getAllUserCartLists: RequestHandler = async (req, res, next) => {
   try {
     const response = await getAallUserCartListToDB(req?.user);
 
@@ -46,4 +46,10 @@ export const getAllUserCartLists: RequestHandler = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const cartListControllers = {
+  postUserCartList,
+  updateCartQuantaty,
+  getAllUserCartLists,
 };
