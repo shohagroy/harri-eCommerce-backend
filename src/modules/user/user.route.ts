@@ -5,6 +5,11 @@ import verifiedLoginUser from "../../middlewares/verifyTokenUser";
 const router = express.Router();
 
 // user route
+// user information route
+router
+  .route("/")
+  .patch(verifiedLoginUser, userControll.updateUserInfo)
+  .get(verifiedLoginUser, userControll.getAllUsers);
 router.route("/create-user").post(userControll.createNewUser);
 router.route("/login-user").post(userControll.userLogin);
 router.route("/login/auth/google").get(userControll.userLoginWithGoogle);

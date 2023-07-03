@@ -5,6 +5,7 @@ import { categoryRoutes } from "../modules/category/category.route";
 import { checkoutRoutes } from "../modules/checkout/checkout.route";
 import { productRoutes } from "../modules/product/product.route";
 import { reviewRouts } from "../modules/review/review.route";
+import { wishListRouts } from "../modules/wishList/wishList.route";
 
 const router = express.Router();
 
@@ -33,23 +34,12 @@ const moduleRoutes = [
     path: "/product-reviews",
     route: reviewRouts,
   },
+  {
+    path: "/wish-lists",
+    route: wishListRouts,
+  },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
-
-// // wish lists route
-// router
-//   .route("/wish-lists")
-//   .post(verifiedLoginUser, postUserWishList)
-//   .get(verifiedLoginUser, getAllUserWishLists);
-
-// // user information route
-// router
-//   .route("/users")
-//   .patch(verifiedLoginUser, updateUserInfo)
-//   .get(verifiedLoginUser, getAllUsers);
-
-// router.route("/payment/success").post(paymentSuccess);
-// router.route("/payment/fail").post(paymentFail);
 
 export default router;

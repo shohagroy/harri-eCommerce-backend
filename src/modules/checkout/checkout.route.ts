@@ -11,5 +11,7 @@ router
 router
   .route("/:id")
   .get(verifiedLoginUser, checkoutControllers.getAllCheckoutProducts);
+router.route("/payment/success").post(checkoutControllers.paymentSuccess);
+router.route("/payment/fail").post(checkoutControllers.paymentFail);
 
 export const checkoutRoutes = router;

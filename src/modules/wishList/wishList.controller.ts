@@ -4,7 +4,7 @@ import {
   getAallUserWishListToDB,
 } from "./wishList.service";
 
-export const postUserWishList: RequestHandler = async (req, res, next) => {
+const postUserWishList: RequestHandler = async (req, res, next) => {
   try {
     const response = await createUserWishListProductToDB(req.body, req.user);
 
@@ -17,7 +17,7 @@ export const postUserWishList: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const getAllUserWishLists: RequestHandler = async (req, res, next) => {
+const getAllUserWishLists: RequestHandler = async (req, res, next) => {
   try {
     const response = await getAallUserWishListToDB(req?.user);
 
@@ -29,4 +29,9 @@ export const getAllUserWishLists: RequestHandler = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const wishListControllers = {
+  postUserWishList,
+  getAllUserWishLists,
 };
