@@ -8,7 +8,7 @@ import {
   updateProductByIdToDB,
 } from "./product.service";
 
-export const postNewProduct = async (req: Request, res: Response) => {
+const postNewProduct = async (req: Request, res: Response) => {
   try {
     const product = await createNewProductToDB(req.body);
     res.status(201).json({ status: "success", data: product });
@@ -17,7 +17,7 @@ export const postNewProduct = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllProducts = async (req: Request, res: Response) => {
+const getAllProducts = async (req: Request, res: Response) => {
   const query = req.query;
 
   try {
@@ -34,7 +34,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-export const getSingleProduct = async (req: Request, res: Response) => {
+const getSingleProduct = async (req: Request, res: Response) => {
   const query = req.params.id;
 
   try {
@@ -50,7 +50,7 @@ export const getSingleProduct = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteProductById = async (req: Request, res: Response) => {
+const deleteProductById = async (req: Request, res: Response) => {
   try {
     const response = await deleteProductByIdToDB(req.params.id);
 
@@ -64,7 +64,7 @@ export const deleteProductById = async (req: Request, res: Response) => {
   }
 };
 
-export const updateProductById = async (req: Request, res: Response) => {
+const updateProductById = async (req: Request, res: Response) => {
   try {
     const response = await updateProductByIdToDB(req.body);
 
@@ -77,4 +77,12 @@ export const updateProductById = async (req: Request, res: Response) => {
     console.log(error);
     errorHandelar(res, error);
   }
+};
+
+export const productControllers = {
+  postNewProduct,
+  getAllProducts,
+  getSingleProduct,
+  deleteProductById,
+  updateProductById,
 };

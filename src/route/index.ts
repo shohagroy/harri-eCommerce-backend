@@ -3,6 +3,7 @@ import { userRoutes } from "../modules/user/user.route";
 import { cartListRoutes } from "../modules/cartList/cartList.route";
 import { categoryRoutes } from "../modules/category/category.route";
 import { checkoutRoutes } from "../modules/checkout/checkout.route";
+import { productRoutes } from "../modules/product/product.route";
 
 const router = express.Router();
 
@@ -23,25 +24,13 @@ const moduleRoutes = [
     path: "/checkout",
     route: checkoutRoutes,
   },
+  {
+    path: "/products",
+    route: productRoutes,
+  },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
-
-// // product routes
-// router.route("/products").post(postNewProduct).get(getAllProducts);
-// router
-//   .route("/products/:id")
-//   .post(postNewProduct)
-//   .get(getSingleProduct)
-//   .put(updateProductById)
-//   .delete(deleteProductById);
-
-// // user route
-// router.route("/create-user").post(createNewUser);
-// router.route("/login-user").post(userLogin);
-// router.route("/login/auth/google").get(userLoginWithGoogle);
-// router.route("/get-login-user").get(verifiedLoginUser, findLoginUser);
-// router.route("/logout-user").post(userLogout);
 
 // // wish lists route
 // router
