@@ -39,7 +39,7 @@ const deleteProductById = catchAsync(async (req: Request, res: Response) => {
   if (response?.acknowledged) {
     res
       .status(200)
-      .json({ status: "success", message: "Category Delete Successfully!" });
+      .json({ status: "success", message: "Product Delete Successfully!" });
   }
 });
 

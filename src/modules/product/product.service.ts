@@ -45,7 +45,7 @@ const getAllProductsToDB = async (query: any) => {
             $skip: parseInt(skip),
           },
           {
-            $limit: 10,
+            $limit: 12,
           },
         ],
       },
