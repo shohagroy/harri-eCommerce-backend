@@ -1,9 +1,6 @@
 import { Request, Response } from "express";
 import { productServices } from "./product.service";
 import catchAsync from "../../shared/catchAsync";
-import pick from "../../shared/pick";
-import { productFilterableFields } from "./product.constants";
-import { paginationFields } from "../../constants/pagination";
 import sendResponse from "../../shared/sendResponse";
 
 const postNewProduct = catchAsync(async (req: Request, res: Response) => {
@@ -13,6 +10,7 @@ const postNewProduct = catchAsync(async (req: Request, res: Response) => {
 
 const getAllProducts = catchAsync(async (req: Request, res: Response) => {
   const query = req.query;
+
   const products = await productServices.getAllProductsToDB(query);
 
   sendResponse(res, {

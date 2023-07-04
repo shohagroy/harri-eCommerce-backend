@@ -11,7 +11,7 @@ const createNewProductToDB = async (data: IProduct) => {
 };
 
 const getAllProductsToDB = async (query: any) => {
-  const { search, skip, sort, searchByCategory } = query;
+  const { search, skip, sort, searchByCategory, limit } = query;
 
   const searByProductName = search === "undefined" ? "" : search.toLowerCase();
 
@@ -45,7 +45,7 @@ const getAllProductsToDB = async (query: any) => {
             $skip: parseInt(skip),
           },
           {
-            $limit: 12,
+            $limit: Number(limit),
           },
         ],
       },
