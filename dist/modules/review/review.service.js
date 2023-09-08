@@ -12,17 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ApiError_1 = __importDefault(require("../errors/ApiError"));
-const authorization = (...requiredRoles) => (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = req.user;
-    try {
-        if (requiredRoles.length && !requiredRoles.includes(user.role)) {
-            throw new ApiError_1.default(400, "You are not authorized for this role!");
-        }
-        next();
+exports.reviewServices = void 0;
+const review_interface_1 = __importDefault(require("./review.interface"));
+const postNewReviewToDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield review_interface_1.default.create(payload);
+    if (result._id) {
+        return "Review created successfully!";
     }
-    catch (error) {
-        next(error);
+    else {
+        return "Something went wrong!";
     }
 });
-exports.default = authorization;
+const getProductReviewToDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield review_interface_1.default.find({ productId: id });
+    return result;
+});
+exports.reviewServices = {
+    postNewReviewToDb,
+    getProductReviewToDb,
+};

@@ -7,11 +7,9 @@ const mongoose_1 = require("mongoose");
 const env_config_1 = __importDefault(require("../configs/env.config"));
 const ApiError_1 = __importDefault(require("../errors/ApiError"));
 const handleValidationError_1 = __importDefault(require("../errors/handleValidationError"));
-const loggar_1 = require("../shared/loggar");
 const globalErrorHandler = (error, req, res, next) => {
-    env_config_1.default.DEVELOPMENT === "development"
-        ? console.log(`🐱‍🏍 globalErrorHandler ~~`, error)
-        : loggar_1.errorLogger.error(`🐱‍🏍 globalErrorHandler ~~`, error);
+    env_config_1.default.DEVELOPMENT === "development" &&
+        console.log(`🐱‍🏍 globalErrorHandler ~~`, error);
     let statusCode = 500;
     let message = "Something went wrong!";
     let errorMessages = [];

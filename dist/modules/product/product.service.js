@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProductByIdToDB = exports.deleteProductByIdToDB = exports.getProductToDB = exports.getAllProductsToDB = exports.createNewProductToDB = void 0;
+exports.productServices = void 0;
 const mongoose_1 = require("mongoose");
 const deleteImage_1 = __importDefault(require("../../utils/deleteImage"));
 const uploadImages_1 = __importDefault(require("../../utils/uploadImages"));
@@ -22,9 +22,8 @@ const createNewProductToDB = (data) => __awaiter(void 0, void 0, void 0, functio
     const response = yield product_interface_1.default.create(Object.assign(Object.assign({}, data), { images: images }));
     return response;
 });
-exports.createNewProductToDB = createNewProductToDB;
 const getAllProductsToDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const { search, skip, sort, searchByCategory } = query;
+    const { search, skip, sort, searchByCategory, limit } = query;
     const searByProductName = search === "undefined" ? "" : search.toLowerCase();
     const result = yield product_interface_1.default.aggregate([
         {
@@ -56,7 +55,7 @@ const getAllProductsToDB = (query) => __awaiter(void 0, void 0, void 0, function
                         $skip: parseInt(skip),
                     },
                     {
-                        $limit: 10,
+                        $limit: Number(limit),
                     },
                 ],
             },
@@ -70,12 +69,10 @@ const getAllProductsToDB = (query) => __awaiter(void 0, void 0, void 0, function
     ]);
     return result[0];
 });
-exports.getAllProductsToDB = getAllProductsToDB;
 const getProductToDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield product_interface_1.default.findById({ _id: query });
     return response;
 });
-exports.getProductToDB = getProductToDB;
 const deleteProductByIdToDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_interface_1.default.aggregate([
         {
@@ -108,7 +105,6 @@ const deleteProductByIdToDB = (id) => __awaiter(void 0, void 0, void 0, function
     const response = yield product_interface_1.default.deleteOne({ _id: new mongoose_1.Types.ObjectId(id) });
     return response;
 });
-exports.deleteProductByIdToDB = deleteProductByIdToDB;
 const updateProductByIdToDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const { images, _id } = data;
     if (images[0].url) {
@@ -149,4 +145,10 @@ const updateProductByIdToDB = (data) => __awaiter(void 0, void 0, void 0, functi
         return updatedProduct;
     }
 });
-exports.updateProductByIdToDB = updateProductByIdToDB;
+exports.productServices = {
+    createNewProductToDB,
+    getAllProductsToDB,
+    getProductToDB,
+    deleteProductByIdToDB,
+    updateProductByIdToDB,
+};

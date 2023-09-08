@@ -8,21 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const ApiError_1 = __importDefault(require("../errors/ApiError"));
-const authorization = (...requiredRoles) => (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = req.user;
+const catchAsync = (fn) => (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (requiredRoles.length && !requiredRoles.includes(user.role)) {
-            throw new ApiError_1.default(400, "You are not authorized for this role!");
-        }
-        next();
+        yield fn(req, res, next);
     }
     catch (error) {
         next(error);
     }
 });
-exports.default = authorization;
+exports.default = catchAsync;

@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fintLoginUserToDb = exports.createNewUserToDb = void 0;
+exports.userServices = void 0;
 const ApiError_1 = __importDefault(require("../../errors/ApiError"));
 const user_interface_1 = __importDefault(require("./user.interface"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const uploadImages_1 = __importDefault(require("../../utils/uploadImages"));
 const createNewUserToDb = (userInfo) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, confirmPassword } = userInfo;
     if (password !== confirmPassword) {
@@ -31,6 +32,9 @@ const createNewUserToDb = (userInfo) => __awaiter(void 0, void 0, void 0, functi
             password: bcrypt_1.default.hashSync(password, 10),
             phone: "",
             address: "",
+            city: "",
+            state: "",
+            zip: "",
             role: "user",
             verified: false,
             wishList: [],
@@ -45,9 +49,24 @@ const createNewUserToDb = (userInfo) => __awaiter(void 0, void 0, void 0, functi
         throw new ApiError_1.default(400, "Email is Already Registered!");
     }
 });
-exports.createNewUserToDb = createNewUserToDb;
 const fintLoginUserToDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield user_interface_1.default.findById(id).select("-password");
     return response;
 });
-exports.fintLoginUserToDb = fintLoginUserToDb;
+const updateUserInfoToDb = (_id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const imageData = [payload === null || payload === void 0 ? void 0 : payload.avatar];
+    const avatar = yield (0, uploadImages_1.default)(imageData);
+    const updatedData = Object.assign(Object.assign({}, payload), { avatar: avatar[0].url });
+    const result = yield user_interface_1.default.findByIdAndUpdate({ _id }, updatedData);
+    return result;
+});
+const getAllUserToDb = () => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield user_interface_1.default.find();
+    return response;
+});
+exports.userServices = {
+    createNewUserToDb,
+    fintLoginUserToDb,
+    updateUserInfoToDb,
+    getAllUserToDb,
+};

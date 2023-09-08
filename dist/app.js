@@ -15,11 +15,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const body_parser_1 = __importDefault(require("body-parser"));
 const globalErrorHandelar_1 = __importDefault(require("./middlewares/globalErrorHandelar"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const route_1 = __importDefault(require("./route/route"));
+const route_1 = __importDefault(require("./route"));
 const passport_1 = __importDefault(require("passport"));
 const passport_config_1 = __importDefault(require("./configs/passport.config"));
 const express_session_1 = __importDefault(require("express-session"));
 const generateToken_1 = __importDefault(require("./utils/generateToken"));
+const http_proxy_middleware_1 = require("http-proxy-middleware");
+const env_config_1 = __importDefault(require("./configs/env.config"));
+// import connectMongo from "connect-mongodb-session";
+const connect_mongodb_session_1 = __importDefault(require("connect-mongodb-session"));
+const MongoDBStore = (0, connect_mongodb_session_1.default)(express_session_1.default);
+const store = new MongoDBStore({
+    uri: process.env.NODE_ENV !== "production"
+        ? "mongodb://127.0.0.1:27017/harri_shop"
+        : env_config_1.default.DB_URI || "mongodb://127.0.0.1:27017/harri_shop",
+    collection: "sessions", // Collection name for storing sessions
+});
+const sslcommerzProxy = (0, http_proxy_middleware_1.createProxyMiddleware)({
+    target: "https://sandbox.sslcommerz.com",
+    changeOrigin: true,
+});
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -37,6 +52,7 @@ app.use((0, express_session_1.default)({
     secret: "your-secret-key",
     resave: false,
     saveUninitialized: false,
+    store: store,
     cookie: {
         secure: false,
         httpOnly: true,
@@ -55,8 +71,12 @@ app.get("/auth/google", passport_1.default.authenticate("google", { scope: ["pro
 app.get("/auth/callback", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     passport_1.default.authenticate("google", (error, user) => __awaiter(void 0, void 0, void 0, function* () {
         const token = yield (0, generateToken_1.default)(user);
+        const redirectUrl = env_config_1.default.DEVELOPMENT !== "development"
+            ? `${env_config_1.default.CLIENT_URL}?token=${token}`
+            : `http://localhost:3000?token=${token}`;
         res.setHeader("Set-Cookie", `harriShop=${token}; Path=/;`);
-        res.redirect("http://localhost:3000");
+        res.redirect(redirectUrl);
     }))(req, res, next);
 }));
+app.use(sslcommerzProxy);
 exports.default = app;

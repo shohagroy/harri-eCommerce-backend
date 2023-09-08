@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAallUserCartListToDB = exports.createUserCartListProductToDB = void 0;
+exports.cartListService = void 0;
 const user_interface_1 = __importDefault(require("../user/user.interface"));
 const cartList_interface_1 = __importDefault(require("./cartList.interface"));
 const createUserCartListProductToDB = (data, user) => __awaiter(void 0, void 0, void 0, function* () {
@@ -35,11 +35,17 @@ const createUserCartListProductToDB = (data, user) => __awaiter(void 0, void 0, 
         }
     }
 });
-exports.createUserCartListProductToDB = createUserCartListProductToDB;
+const cartListProductQuentatyUpdated = (_id, quantity) => __awaiter(void 0, void 0, void 0, function* () {
+    const updatedData = { quantity: quantity };
+    const cartItem = cartList_interface_1.default.findOneAndUpdate({ _id }, updatedData);
+    return cartItem;
+});
 const getAallUserCartListToDB = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    // console.log(user);
     const userCartLists = yield cartList_interface_1.default.find({ userId: user === null || user === void 0 ? void 0 : user._id });
-    // console.log(userCartLists);
     return userCartLists;
 });
-exports.getAallUserCartListToDB = getAallUserCartListToDB;
+exports.cartListService = {
+    createUserCartListProductToDB,
+    getAallUserCartListToDB,
+    cartListProductQuentatyUpdated,
+};

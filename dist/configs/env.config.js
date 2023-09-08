@@ -17,4 +17,8 @@ exports.default = {
     GOOGGLE_CLIENT_ID: process.env.GOOGGLE_clientID,
     GOOGGLE_CLIENT_SECRET: process.env.GOOGGLE_clientSecret,
     GOOGGLE_CALL_BACK_URL: process.env.GOOGGLE_callbackURL,
+    SLL_STORE_ID: process.env.STORE_ID,
+    SLL_STORE_PASSWORD: process.env.STORE_PASSWORD,
+    SERVER_URL: process.env.SERVER_URL,
+    CLIENT_URL: process.env.CLIENT_URL,
 };

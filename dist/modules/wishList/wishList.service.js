@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAallUserWishListToDB = exports.createUserWishListProductToDB = void 0;
+exports.wishListService = void 0;
 const user_interface_1 = __importDefault(require("../user/user.interface"));
 const wishList_interface_1 = __importDefault(require("./wishList.interface"));
 const createUserWishListProductToDB = (data, user) => __awaiter(void 0, void 0, void 0, function* () {
@@ -35,9 +35,11 @@ const createUserWishListProductToDB = (data, user) => __awaiter(void 0, void 0, 
         }
     }
 });
-exports.createUserWishListProductToDB = createUserWishListProductToDB;
 const getAallUserWishListToDB = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const userWishLists = yield wishList_interface_1.default.find({ userId: user === null || user === void 0 ? void 0 : user._id });
     return userWishLists;
 });
-exports.getAallUserWishListToDB = getAallUserWishListToDB;
+exports.wishListService = {
+    createUserWishListProductToDB,
+    getAallUserWishListToDB,
+};

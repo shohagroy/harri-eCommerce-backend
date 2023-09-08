@@ -13,10 +13,10 @@ async function dbConnection() {
     if (env.DB_URI) {
       await mongoose.connect(uri);
       app.listen(env.PORT, () => {
-        logger.info(`server is listening on port: ${env.PORT as string}`);
+        console.log(`server is listening on port: ${env.PORT as string}`);
       });
     } else {
-      errorLogger.error("db uri is not defined");
+      console.error("db uri is not defined");
     }
   } catch (err) {
     errorLogger.error(`Failed to connect database ${err}`);

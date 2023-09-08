@@ -24,12 +24,22 @@ const userSchema = new mongoose_1.Schema({
         trim: true,
     },
     password: {
+        select: 0,
         type: String,
     },
     phone: {
         type: String,
     },
     address: {
+        type: String,
+    },
+    city: {
+        type: String,
+    },
+    state: {
+        type: String,
+    },
+    zip: {
         type: String,
     },
     role: {

@@ -13,35 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = require("bcrypt");
-const passport_local_1 = require("passport-local");
 const passport_google_oauth20_1 = require("passport-google-oauth20");
 const user_interface_1 = __importDefault(require("../modules/user/user.interface"));
 const env_config_1 = __importDefault(require("./env.config"));
 const passportConfig = (passport) => {
-    passport.use(new passport_local_1.Strategy({ usernameField: "email" }, (email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const user = yield user_interface_1.default.findOne({ email });
-            if (!user) {
-                return done(null, false, { message: "Incorrect username." });
-            }
-            if (!(0, bcrypt_1.compareSync)(password, user.password)) {
-                console.log("Incorrect password");
-                return done(null, false, { message: "Incorrect password." });
-            }
-            return done(null, user);
-        }
-        catch (error) {
-            return done(error);
-        }
-    })));
     passport.use(new passport_google_oauth20_1.Strategy({
         clientID: env_config_1.default.GOOGGLE_CLIENT_ID,
         clientSecret: env_config_1.default.GOOGGLE_CLIENT_SECRET,
-        callbackURL: env_config_1.default.GOOGGLE_CALL_BACK_URL,
+        callbackURL: env_config_1.default.DEVELOPMENT !== "production"
+            ? env_config_1.default.GOOGGLE_CALL_BACK_URL
+            : `${env_config_1.default.SERVER_URL}/auth/callback`,
     }, function (accessToken, refreshToken, profile, cb) {
         return __awaiter(this, void 0, void 0, function* () {
             const { sub, given_name, family_name, picture, email, email_verified } = profile === null || profile === void 0 ? void 0 : profile._json;
-            const gogleUser = {
+            const googleUser = {
                 firstName: given_name,
                 lastName: family_name,
                 avatar: picture,
@@ -49,6 +34,9 @@ const passportConfig = (passport) => {
                 password: (0, bcrypt_1.hashSync)(sub, 10),
                 phone: "",
                 address: "",
+                city: "",
+                state: "",
+                zip: "",
                 role: "user",
                 verified: email_verified,
                 wishList: [],
@@ -58,7 +46,7 @@ const passportConfig = (passport) => {
             try {
                 const user = yield user_interface_1.default.findOne({ email: email });
                 if (!user) {
-                    const newUser = yield user_interface_1.default.create(gogleUser);
+                    const newUser = yield user_interface_1.default.create(googleUser);
                     return cb(null, newUser);
                 }
                 const updatedUser = {
@@ -82,7 +70,6 @@ const passportConfig = (passport) => {
         done(null, user._id);
     });
     passport.deserializeUser(function (_id, done) {
-        console.log(_id);
         user_interface_1.default.findOne({ _id })
             .then((user) => {
             done(null, user);

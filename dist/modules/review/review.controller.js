@@ -12,34 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cartListControllers = void 0;
-const cartList_service_1 = require("./cartList.service");
+exports.reviewControllers = void 0;
+const review_service_1 = require("./review.service");
 const catchAsync_1 = __importDefault(require("../../shared/catchAsync"));
-const postUserCartList = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield cartList_service_1.cartListService.createUserCartListProductToDB(req.body, req.user);
+const postProductReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield review_service_1.reviewServices.postNewReviewToDb(req.body);
     res.status(201).json({
         status: "success",
         message: response,
     });
 }));
-const updateCartQuantaty = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { _id, quantity } = req.body;
-    const response = yield cartList_service_1.cartListService.cartListProductQuentatyUpdated(_id, quantity);
-    res.status(201).json({
+const getProductReviews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const response = yield review_service_1.reviewServices.getProductReviewToDb(id);
+    res.status(200).json({
         status: "success",
-        message: response,
-    });
-}));
-const getAllUserCartLists = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield cartList_service_1.cartListService.getAallUserCartListToDB(req === null || req === void 0 ? void 0 : req.user);
-    res.status(201).json({
-        status: "success",
-        message: "user cart list get successfully!",
+        message: "Product reviews received successfully!",
         data: response,
     });
 }));
-exports.cartListControllers = {
-    postUserCartList,
-    updateCartQuantaty,
-    getAllUserCartLists,
+exports.reviewControllers = {
+    postProductReview,
+    getProductReviews,
 };

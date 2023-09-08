@@ -8,77 +8,56 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProductById = exports.deleteProductById = exports.getSingleProduct = exports.getAllProducts = exports.postNewProduct = void 0;
-const globalErrorHandelar_1 = require("../../utils/globalErrorHandelar");
+exports.productControllers = void 0;
 const product_service_1 = require("./product.service");
-const postNewProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const product = yield (0, product_service_1.createNewProductToDB)(req.body);
-        res.status(201).json({ status: "success", data: product });
-    }
-    catch (error) {
-        (0, globalErrorHandelar_1.errorHandelar)(res, error);
-    }
-});
-exports.postNewProduct = postNewProduct;
-const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const catchAsync_1 = __importDefault(require("../../shared/catchAsync"));
+const sendResponse_1 = __importDefault(require("../../shared/sendResponse"));
+const postNewProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const product = yield product_service_1.productServices.createNewProductToDB(req.body);
+    res.status(201).json({ status: "success", data: product });
+}));
+const getAllProducts = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const query = req.query;
-    try {
-        const products = yield (0, product_service_1.getAllProductsToDB)(query);
-        res.status(200).json({
-            status: "success",
-            data: products.data,
-            count: products.count,
-        });
-    }
-    catch (error) {
-        console.log(error);
-        (0, globalErrorHandelar_1.errorHandelar)(res, error);
-    }
-});
-exports.getAllProducts = getAllProducts;
-const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const products = yield product_service_1.productServices.getAllProductsToDB(query);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: "Products Recvied successfully!",
+        data: products,
+    });
+}));
+const getSingleProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const query = req.params.id;
-    try {
-        const product = yield (0, product_service_1.getProductToDB)(query);
-        res.status(200).json({
-            status: "success",
-            data: product,
-        });
+    const product = yield product_service_1.productServices.getProductToDB(query);
+    res.status(200).json({
+        status: "success",
+        data: product,
+    });
+}));
+const deleteProductById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield product_service_1.productServices.deleteProductByIdToDB(req.params.id);
+    if (response === null || response === void 0 ? void 0 : response.acknowledged) {
+        res
+            .status(200)
+            .json({ status: "success", message: "Product Delete Successfully!" });
     }
-    catch (error) {
-        console.log(error);
-        (0, globalErrorHandelar_1.errorHandelar)(res, error);
+}));
+const updateProductById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield product_service_1.productServices.updateProductByIdToDB(req.body);
+    if (response === null || response === void 0 ? void 0 : response._id) {
+        res
+            .status(200)
+            .json({ status: "success", message: "Product updated Successfully!" });
     }
-});
-exports.getSingleProduct = getSingleProduct;
-const deleteProductById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const response = yield (0, product_service_1.deleteProductByIdToDB)(req.params.id);
-        if (response === null || response === void 0 ? void 0 : response.acknowledged) {
-            res
-                .status(200)
-                .json({ status: "success", message: "Category Delete Successfully!" });
-        }
-    }
-    catch (error) {
-        (0, globalErrorHandelar_1.errorHandelar)(res, error);
-    }
-});
-exports.deleteProductById = deleteProductById;
-const updateProductById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const response = yield (0, product_service_1.updateProductByIdToDB)(req.body);
-        if (response === null || response === void 0 ? void 0 : response._id) {
-            res
-                .status(200)
-                .json({ status: "success", message: "Product updated Successfully!" });
-        }
-    }
-    catch (error) {
-        console.log(error);
-        (0, globalErrorHandelar_1.errorHandelar)(res, error);
-    }
-});
-exports.updateProductById = updateProductById;
+}));
+exports.productControllers = {
+    postNewProduct,
+    getAllProducts,
+    getSingleProduct,
+    deleteProductById,
+    updateProductById,
+};

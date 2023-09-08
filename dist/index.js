@@ -25,11 +25,11 @@ function dbConnection() {
             if (env_config_1.default.DB_URI) {
                 yield mongoose.connect(uri);
                 app_1.default.listen(env_config_1.default.PORT, () => {
-                    loggar_1.logger.info(`server is listening on port: ${env_config_1.default.PORT}`);
+                    console.log(`server is listening on port: ${env_config_1.default.PORT}`);
                 });
             }
             else {
-                loggar_1.errorLogger.error("db uri is not defined");
+                console.error("db uri is not defined");
             }
         }
         catch (err) {

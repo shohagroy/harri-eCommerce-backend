@@ -13,9 +13,8 @@ const globalErrorHandler: ErrorRequestHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  env.DEVELOPMENT === "development"
-    ? console.log(`🐱‍🏍 globalErrorHandler ~~`, error)
-    : errorLogger.error(`🐱‍🏍 globalErrorHandler ~~`, error);
+  env.DEVELOPMENT === "development" &&
+    console.log(`🐱‍🏍 globalErrorHandler ~~`, error);
 
   let statusCode = 500;
   let message = "Something went wrong!";

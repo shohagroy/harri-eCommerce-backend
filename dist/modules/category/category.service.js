@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateCaregoryByIdToDB = exports.deleteCaregoryByIdToDB = exports.getAllCategorysToDB = exports.createNewCategoryToDB = void 0;
+exports.categoryServices = void 0;
 const mongoose_1 = require("mongoose");
 const deleteImage_1 = __importDefault(require("../../utils/deleteImage"));
 const uploadImages_1 = __importDefault(require("../../utils/uploadImages"));
@@ -23,7 +23,6 @@ const createNewCategoryToDB = (data) => __awaiter(void 0, void 0, void 0, functi
     const response = yield category_interface_1.default.create(Object.assign(Object.assign({}, data), { icon: icon }));
     return response;
 });
-exports.createNewCategoryToDB = createNewCategoryToDB;
 const getAllCategorysToDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const { search, skip } = query;
     const result = yield category_interface_1.default.aggregate([
@@ -62,7 +61,6 @@ const getAllCategorysToDB = (query) => __awaiter(void 0, void 0, void 0, functio
     ]);
     return result[0];
 });
-exports.getAllCategorysToDB = getAllCategorysToDB;
 const deleteCaregoryByIdToDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield category_interface_1.default.aggregate([
         {
@@ -85,7 +83,6 @@ const deleteCaregoryByIdToDB = (id) => __awaiter(void 0, void 0, void 0, functio
         return response;
     }
 });
-exports.deleteCaregoryByIdToDB = deleteCaregoryByIdToDB;
 const updateCaregoryByIdToDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, icon, publish, _id } = data;
     if (icon.length > 1) {
@@ -124,4 +121,9 @@ const updateCaregoryByIdToDB = (data) => __awaiter(void 0, void 0, void 0, funct
         return updatedCategory;
     }
 });
-exports.updateCaregoryByIdToDB = updateCaregoryByIdToDB;
+exports.categoryServices = {
+    createNewCategoryToDB,
+    getAllCategorysToDB,
+    deleteCaregoryByIdToDB,
+    updateCaregoryByIdToDB,
+};

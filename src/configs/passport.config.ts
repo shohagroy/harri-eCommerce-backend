@@ -7,29 +7,6 @@ import envConfig from "./env.config";
 
 const passportConfig = (passport: PassportStatic) => {
   passport.use(
-    new LocalStrategy(
-      { usernameField: "email" },
-      async (email, password, done) => {
-        try {
-          const user = await User.findOne({ email });
-
-          if (!user) {
-            return done(null, false, { message: "Incorrect username." });
-          }
-
-          if (!compareSync(password, user.password)) {
-            return done(null, false, { message: "Incorrect password." });
-          }
-
-          return done(null, user);
-        } catch (error) {
-          return done(error);
-        }
-      }
-    )
-  );
-
-  passport.use(
     new GoogleStrategy(
       {
         clientID: envConfig.GOOGGLE_CLIENT_ID!,

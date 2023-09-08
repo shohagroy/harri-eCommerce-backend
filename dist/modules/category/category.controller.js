@@ -8,64 +8,50 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateCategoryById = exports.deleteCategoryById = exports.getAllCategorys = exports.postNewCategory = void 0;
+exports.categoryControllers = void 0;
 const category_service_1 = require("./category.service");
-const postNewCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const category = yield (0, category_service_1.createNewCategoryToDB)(req.body);
-        res.status(201).json({
-            status: "success",
-            message: "Category Create Successfully!",
-            data: category,
-        });
-    }
-    catch (error) {
-        next(error);
-    }
-});
-exports.postNewCategory = postNewCategory;
-const getAllCategorys = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const catchAsync_1 = __importDefault(require("../../shared/catchAsync"));
+const postNewCategory = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const category = yield category_service_1.categoryServices.createNewCategoryToDB(req.body);
+    res.status(201).json({
+        status: "success",
+        message: "Category Create Successfully!",
+        data: category,
+    });
+}));
+const getAllCategorys = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const query = req.query;
-    try {
-        const categorys = yield (0, category_service_1.getAllCategorysToDB)(query);
+    const categorys = yield category_service_1.categoryServices.getAllCategorysToDB(query);
+    res.status(200).json({
+        status: "success",
+        message: "Get all Category Successfully!",
+        data: categorys,
+    });
+}));
+const deleteCategoryById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield category_service_1.categoryServices.deleteCaregoryByIdToDB(req.params.id);
+    res.status(200).json({
+        status: "success",
+        message: "Category Delete Successfully!",
+        data: response,
+    });
+}));
+const updateCategoryById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield category_service_1.categoryServices.updateCaregoryByIdToDB(req.body);
+    if (response === null || response === void 0 ? void 0 : response._id) {
         res.status(200).json({
             status: "success",
-            message: "Get all Category Successfully!",
-            data: categorys,
+            message: "Category Update Successfully!",
         });
     }
-    catch (error) {
-        next(error);
-    }
-});
-exports.getAllCategorys = getAllCategorys;
-const deleteCategoryById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const response = yield (0, category_service_1.deleteCaregoryByIdToDB)(req.params.id);
-        res.status(200).json({
-            status: "success",
-            message: "Category Delete Successfully!",
-            data: response,
-        });
-    }
-    catch (error) {
-        next(error);
-    }
-});
-exports.deleteCategoryById = deleteCategoryById;
-const updateCategoryById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const response = yield (0, category_service_1.updateCaregoryByIdToDB)(req.body);
-        if (response === null || response === void 0 ? void 0 : response._id) {
-            res.status(200).json({
-                status: "success",
-                message: "Category Update Successfully!",
-            });
-        }
-    }
-    catch (error) {
-        next(error);
-    }
-});
-exports.updateCategoryById = updateCategoryById;
+}));
+exports.categoryControllers = {
+    postNewCategory,
+    getAllCategorys,
+    deleteCategoryById,
+    updateCategoryById,
+};
