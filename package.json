@@ -38,8 +38,8 @@
   },
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
-    "build": "tsc -p tsconfig.json",
-    "start": "tsc -p tsconfig.json && node ./dist/index.js"
+    "build": "nvm use && tsc -p tsconfig.json",
+    "start": "nvm use && node ./dist/index.js"
   },
   "devDependencies": {
     "@types/connect-mongodb-session": "^2.4.4",
